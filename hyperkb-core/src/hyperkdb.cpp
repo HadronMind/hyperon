@@ -1,5 +1,5 @@
 #include <iostream>
-#include "hyperkdb-core.h"
+#include "hyperkb/core/hyperkb.h"
 
 
 

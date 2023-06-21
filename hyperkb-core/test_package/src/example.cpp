@@ -1,4 +1,4 @@
-#include "hyperkdb-core.h"
+#include "hyperkdb/core/hyperkb.h"
 #include <vector>
 #include <string>
 

@@ -52,5 +52,6 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 
+build/
 test_package/build/
 testbed/build/

@@ -1,9 +1,13 @@
+import os
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
+from conan.tools.files import load
+
+required_conan_version = ">=2.0.4"
 
 
 class hyperkdb_coreRecipe(ConanFile):
-    name = "hyperkdb-core"
+    name = "hyperkdb_core"
     version = "1.0"
 
     # Optional metadata
@@ -29,8 +33,19 @@ class hyperkdb_coreRecipe(ConanFile):
         if self.options.shared:
             self.options.rm_safe("fPIC")
 
+    def requirements(self):
+        self.requires("fmt/9.1.0")
+        self.requires("glog/0.6.0")
+
+    def build_requirements(self):
+        self.test_requires("gtest/1.13.0")
+
     def layout(self):
         cmake_layout(self)
+        self.folders.root = "."
+        self.folders.source = "."
+        self.folders.build = "build"
+        self.folders.generators = "build"
 
     def generate(self):
         deps = CMakeDeps(self)
@@ -39,8 +54,10 @@ class hyperkdb_coreRecipe(ConanFile):
         tc.generate()
 
     def build(self):
+        path = os.path.join(self.source_folder, "CMakeLists.txt")
+        cmake_file = load(self, path)
         cmake = CMake(self)
-        cmake.configure()
+        cmake.configure(cli_args=["-GNinja"])
         cmake.build()
 
     def package(self):
@@ -48,7 +65,7 @@ class hyperkdb_coreRecipe(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["hyperkdb-core"]
+        self.cpp_info.libs = ["hyperkdb_core"]
 
     
 

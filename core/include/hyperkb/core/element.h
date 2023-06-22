@@ -1,5 +1,4 @@
-#ifndef HYPERKB_CORE_ELEMENT_H
-#define HYPERKB_CORE_ELEMENT_H
+#pragma once
 
 #include <limits>
 #include <memory>
@@ -9,15 +8,10 @@ namespace hyperkb {
 
 class Element;
 using ElementPtr = std::shared_ptr<Element>;
-class Node;
-using NodePtr = std::shared_ptr<Node>;
-class Link;
-using LinkPtr = std::shared_ptr<Link>;
+using ElementType = uint32_t;
 using HashVal = uint64_t;
 using Arity = uint64_t;
-using ElementType = uint32_t;
 
-// Structural model: hypergraph element-node-link
 class Element {
 public:
   static const HashVal INVALID_HASH = std::numeric_limits<size_t>::max();
@@ -27,12 +21,7 @@ public:
   virtual ~Element() = default;
 
   virtual std::string to_string() const = 0;
-  virtual bool is_node() const { return false; }
-  virtual bool is_link() const { return false; }
-  virtual bool is_entity() const { return false; }
-  virtual bool is_relation() const { return false; }
-  virtual bool is_role() const { return false; }
-  virtual bool is_context() const { return false; }
+  virtual bool is_concept() const { return false; }
 
   inline std::string& get_uuid(bool local = false) {
     return local ? this->local_uuid : this->uuid;
@@ -57,8 +46,6 @@ protected:
   std::string uuid;  // global identifier
   std::string local_uuid;
 
-  Element() = default;
-
   // Copy constructor
   explicit Element(const Element& other) {}
   // Move constructor
@@ -78,8 +65,8 @@ protected:
  * Create ElementPtr of specific subclass using appropriate constructor.
  */
 template <typename T, typename... Args>
-static inline typename std::enable_if<std::is_base_of<Element, T>::value,
-                                      std::shared_ptr<T>>::type
+static inline typename std::enable_if_t<std::is_base_of<Element, T>::value,
+                                        std::shared_ptr<T>>
 create_element(Args&&... args) {
   return std::make_shared<T>(std::forward<Args>(args)...);
 }
@@ -88,8 +75,8 @@ create_element(Args&&... args) {
  * Cast ElementPtr to the specific Element subclass.
  */
 template <typename T>
-static inline typename std::enable_if<std::is_base_of<Element, T>::value,
-                                      std::shared_ptr<T>>::type
+static inline typename std::enable_if_t<std::is_base_of<Element, T>::value,
+                                        std::shared_ptr<T>>
 cast_from_element(const ElementPtr& element) {
   return std::dynamic_pointer_cast<T>(element);
 }
@@ -98,24 +85,11 @@ cast_from_element(const ElementPtr& element) {
  * Cast specific Element subclass to ElementPtr.
  */
 template <typename T>
-static inline typename std::enable_if<std::is_base_of<Element, T>::value,
-                                      ElementPtr>::type
-cast_to_element(const std::shared_ptr<const T>& element) {
+static inline
+    typename std::enable_if_t<std::is_base_of<Element, T>::value, ElementPtr>
+    cast_to_element(const std::shared_ptr<const T>& element) {
   return std::dynamic_pointer_cast<Element>(
       std::const_pointer_cast<T>(element));
 }
 
-// Basic element
-class Node : public Element {
-public:
-  bool is_node() const { return true; }
-};
-
-// A link may contains multiple nodes or other links
-class Link : public Element {
-  bool is_link() const { return true; }
-};
-
 }  // namespace hyperkb
-
-#endif

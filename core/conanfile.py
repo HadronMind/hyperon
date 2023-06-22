@@ -57,6 +57,7 @@ class hyperkdb_coreRecipe(ConanFile):
         path = os.path.join(self.source_folder, "CMakeLists.txt")
         cmake_file = load(self, path)
         cmake = CMake(self)
+        #cmake.definitions['CMAKE_EXPORT_COMPILE_COMMANDS'] = "ON"
         cmake.configure(cli_args=["-GNinja"])
         cmake.build()
 
@@ -67,7 +68,7 @@ class hyperkdb_coreRecipe(ConanFile):
     def package_info(self):
         self.cpp_info.libs = ["hyperkdb_core"]
 
-    
 
-    
+
+
 

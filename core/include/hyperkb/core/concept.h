@@ -1,11 +1,14 @@
 #pragma once
 
+#include <fmt/core.h>
+
 #include <limits>
 #include <map>
 #include <memory>
 #include <string>
 
-#include "hyperkb/core/category.h"
+#include "hyperkb/core/category_manager.h"
+#include "hyperkb/core/concept_repr.h"
 
 namespace hyperkb {
 
@@ -34,15 +37,32 @@ class Concept : public Element {
   friend class Category;
 
 public:
-  std::string iname;
-  std::weak_ptr<Category> ns;
-  ElementPtr parent;
-  ContextPtr context;
-  uint32_t members;
-  std::string english;
-  std::string chinese;
+  Concept(const std::string& inner_name, const std::string& category)
+      : iname(inner_name) {
+    m_category = global_get_category(category);
+  };
 
-protected:
+  Concept(const std::string& inner_name, const CategoryPtr& category)
+      : iname(inner_name), m_category(category){};
+
+  Concept(const std::string& inner_name, const std::string& category,
+          const ElementPtr& parent_element, const ContextPtr& context)
+      : iname(inner_name), m_parent(parent_element), m_context(context) {
+    m_category = global_get_category(category);
+  };
+
+  Concept(const std::string& inner_name, const CategoryPtr& category,
+          const ElementPtr& parent_element, const ContextPtr& context)
+      : iname(inner_name),
+        m_category(category),
+        m_parent(parent_element),
+        m_context(context){};
+
+  inline std::string inner_name() { return iname; }
+  inline std::weak_ptr<Category>& category() { return m_category; }
+  inline ElementPtr& parent() { return m_parent; }
+  inline ContextPtr& context() { return m_context; }
+
   /**
    * @brief Check the object is instantized from Concept subtype.
    *
@@ -53,6 +73,56 @@ protected:
   is_instance_of() {
     return std::dynamic_pointer_cast<T>(*this) != nullptr;
   }
+
+  /**
+   * @brief Add new presentation to this concept. This operation always succeeds
+   * if a valid modal is given.
+   * @param repr
+   * @param modal
+   */
+  void add_repr(const ConceptReprPtr& repr,
+                const ConceptRepr::repr_modal modal) {
+    auto repr_vec = repr_map[modal];
+    repr_vec.push_back(repr);
+  }
+
+  // TODO: add custom repr filter
+  std::vector<ConceptReprPtr> get_repr(const ConceptRepr::repr_modal modal) {
+    auto found = repr_map.find(modal);
+    if (found != repr_map.end()) {
+      return found->second;
+    }
+    return std::vector<ConceptReprPtr>{};
+  }
+
+  inline uint32_t repr_count() {
+    uint32_t s = 0;
+    for (auto it = repr_map.begin(); it != repr_map.end(); it++) {
+      s += it->second.size();
+    }
+    return s;
+  }
+
+  inline uint32_t repr_count(const ConceptRepr::repr_modal modal) {
+    return get_repr(modal).size();
+  }
+
+  // Concept in string is denoted by curly braces.
+  std::string to_string() { return fmt::format("\\{{}\\}", iname); }
+
+protected:
+  explicit Concept(const Concept&) {}
+  explicit Concept(Concept&&) {}
+
+private:
+  std::string iname;
+  std::weak_ptr<Category> m_category;
+  ElementPtr m_parent;
+  ContextPtr m_context;
+  uint32_t m_members;
+
+  // stored representations
+  std::map<ConceptRepr::repr_modal, std::vector<ConceptReprPtr>> repr_map;
 };
 
 /**
@@ -91,9 +161,6 @@ public:
   Entity() = default;
 
   bool is_entity() const { return true; }
-
-protected:
-  explicit Entity(const Concept&){};
 };
 
 class Relation : public Concept {

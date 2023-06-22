@@ -46,14 +46,10 @@ protected:
   std::string uuid;  // global identifier
   std::string local_uuid;
 
-  // Copy constructor
   explicit Element(const Element& other) {}
-  // Move constructor
   explicit Element(Element&& other) {}
 
-  // Copy assignment
   Element& operator=(const Element&) { return *this; };
-  // Move assignment
   Element& operator=(Element&&) noexcept { return *this; };
 
   mutable HashVal _hash_value{Element::INVALID_HASH};

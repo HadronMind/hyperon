@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "hyperkb/core/element.h"
+#include "element.h"
 
 namespace hyperkb {
 

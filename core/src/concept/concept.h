@@ -7,8 +7,8 @@
 #include <memory>
 #include <string>
 
-#include "hyperkb/core/category_manager.h"
-#include "hyperkb/core/concept_repr.h"
+#include "category_manager.h"
+#include "concept_repr.h"
 
 namespace hyperkb {
 
@@ -39,29 +39,29 @@ class Concept : public Element {
 public:
   Concept(const std::string& inner_name, const std::string& category)
       : iname(inner_name) {
-    m_category = global_get_category(category);
+    mCategory = global_get_category(category);
   };
 
   Concept(const std::string& inner_name, const CategoryPtr& category)
-      : iname(inner_name), m_category(category){};
+      : iname(inner_name), mCategory(category){};
 
   Concept(const std::string& inner_name, const std::string& category,
           const ElementPtr& parent_element, const ContextPtr& context)
-      : iname(inner_name), m_parent(parent_element), m_context(context) {
-    m_category = global_get_category(category);
+      : iname(inner_name), mParent(parent_element), mContext(context) {
+    mCategory = global_get_category(category);
   };
 
   Concept(const std::string& inner_name, const CategoryPtr& category,
           const ElementPtr& parent_element, const ContextPtr& context)
       : iname(inner_name),
-        m_category(category),
-        m_parent(parent_element),
-        m_context(context){};
+        mCategory(category),
+        mParent(parent_element),
+        mContext(context){};
 
   inline std::string inner_name() { return iname; }
-  inline std::weak_ptr<Category>& category() { return m_category; }
-  inline ElementPtr& parent() { return m_parent; }
-  inline ContextPtr& context() { return m_context; }
+  inline std::weak_ptr<Category>& category() { return mCategory; }
+  inline ElementPtr& parent() { return mParent; }
+  inline ContextPtr& context() { return mContext; }
 
   /**
    * @brief Check the object is instantized from Concept subtype.
@@ -116,10 +116,10 @@ protected:
 
 private:
   std::string iname;
-  std::weak_ptr<Category> m_category;
-  ElementPtr m_parent;
-  ContextPtr m_context;
-  uint32_t m_members;
+  std::weak_ptr<Category> mCategory;
+  ElementPtr mParent;
+  ContextPtr mContext;
+  uint32_t mMember;
 
   // stored representations
   std::map<ConceptRepr::repr_modal, std::vector<ConceptReprPtr>> repr_map;

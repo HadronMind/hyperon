@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "hyperkb/core/category.h"
+#include "category.h"
 
 namespace hyperkb {
 /**

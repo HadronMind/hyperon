@@ -37,19 +37,8 @@ class Concept : public Element {
   friend class Category;
 
 public:
-  Concept(const std::string& inner_name, const std::string& category)
-      : iname(inner_name) {
-    mCategory = global_get_category(category);
-  };
-
   Concept(const std::string& inner_name, const CategoryPtr& category)
       : iname(inner_name), mCategory(category){};
-
-  Concept(const std::string& inner_name, const std::string& category,
-          const ElementPtr& parent_element, const ContextPtr& context)
-      : iname(inner_name), mParent(parent_element), mContext(context) {
-    mCategory = global_get_category(category);
-  };
 
   Concept(const std::string& inner_name, const CategoryPtr& category,
           const ElementPtr& parent_element, const ContextPtr& context)

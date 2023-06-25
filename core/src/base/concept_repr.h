@@ -66,18 +66,18 @@ public:
 
   ConceptReprNL(const std::string& desc, const modal_natlang_type lang_type,
                 const std::string encoding = "utf-8")
-      : m_lang_type(lang_type), m_encoding(encoding), m_lang_desc(desc) {
+      : mLangType(lang_type), mEncoding(encoding), mLangDesc(desc) {
     this->m_modal = modal_natlang;
   }
 
-  inline std::string& get_repr() { return m_lang_desc; }
+  inline std::string& get_repr() { return mLangDesc; }
 
-  std::string to_string() { return m_lang_desc; }
+  std::string to_string() { return mLangDesc; }
 
 protected:
-  modal_natlang_type m_lang_type;
-  std::string m_encoding;
-  std::string m_lang_desc;
+  modal_natlang_type mLangType;
+  std::string mEncoding;
+  std::string mLangDesc;
 };
 
 class ConceptReprImage : ConceptRepr {

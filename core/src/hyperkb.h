@@ -1,8 +1,8 @@
 #pragma once
 
-#include "concept/category_manager.h"
-#include "concept/concept.h"
-#include "concept/element.h"
+#include "base/category_manager.h"
+#include "base/concept.h"
+#include "base/element.h"
 
 #ifdef _WIN32
 #define HYPERKDB_CORE_EXPORT __declspec(dllexport)

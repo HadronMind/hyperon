@@ -66,7 +66,7 @@ public:
    * @return uint64_t
    */
   inline uint64_t element_count() const {
-    return m_non_cnpt_ele_num + m_cnpt_ele_num;
+    return mNonConceptEleNum + mConceptEleNum;
   }
 
   /**
@@ -108,13 +108,13 @@ public:
   template <typename T>
   inline typename std::enable_if_t<std::is_base_of<Concept, T>::value, uint64_t>
   concept_count() const {
-    if constexpr (std::is_same<T, class Concept>::value) return m_cnpt_ele_num;
-    if constexpr (std::is_same<T, class Entity>::value) return m_entity_num;
-    if constexpr (std::is_same<T, class Relation>::value) return m_relation_num;
-    if constexpr (std::is_same<T, class Indv>::value) return m_indv_num;
-    if constexpr (std::is_same<T, class Link>::value) return m_link_num;
-    if constexpr (std::is_same<T, class Role>::value) return m_role_num;
-    if constexpr (std::is_same<T, class Context>::value) return m_context_num;
+    if constexpr (std::is_same<T, class Concept>::value) return mConceptEleNum;
+    if constexpr (std::is_same<T, class Entity>::value) return mEntityNum;
+    if constexpr (std::is_same<T, class Relation>::value) return mRelationNum;
+    if constexpr (std::is_same<T, class Indv>::value) return mIndvNum;
+    if constexpr (std::is_same<T, class Link>::value) return mLinkNum;
+    if constexpr (std::is_same<T, class Role>::value) return mRoleNum;
+    if constexpr (std::is_same<T, class Context>::value) return mContextNum;
     return 0;
   }
 
@@ -164,15 +164,15 @@ protected:
   std::map<std::string, ElementPtr> non_cnpt_map;
 
 private:
-  std::string m_name;
-  uint64_t m_non_cnpt_ele_num;
-  uint64_t m_cnpt_ele_num;
-  uint64_t m_entity_num;
-  uint64_t m_relation_num;
-  uint64_t m_indv_num;
-  uint64_t m_link_num;
-  uint64_t m_role_num;
-  uint64_t m_context_num;
+  std::string mName;
+  uint64_t mNonConceptEleNum;
+  uint64_t mConceptEleNum;
+  uint64_t mEntityNum;
+  uint64_t mRelationNum;
+  uint64_t mIndvNum;
+  uint64_t mLinkNum;
+  uint64_t mRoleNum;
+  uint64_t mContextNum;
 };
 
 }  // namespace hyperkb

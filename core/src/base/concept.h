@@ -3,6 +3,7 @@
 #include <fmt/core.h>
 
 #include <limits>
+#include <list>
 #include <map>
 #include <memory>
 #include <string>
@@ -14,18 +15,10 @@ namespace hyperkb {
 
 class Concept;
 using ConceptPtr = std::shared_ptr<Concept>;
-class Entity;
-using EntityPtr = std::shared_ptr<Entity>;
-class Relation;
-using RelationPtr = std::shared_ptr<Relation>;
 class Role;
 using RolePtr = std::shared_ptr<Role>;
 class Context;
 using ContextPtr = std::shared_ptr<Context>;
-class Indv;
-using IndvPtr = std::shared_ptr<Indv>;
-class Link;
-using LinkPtr = std::shared_ptr<Link>;
 
 /**
  * @brief Base class to represent a general concept.
@@ -37,15 +30,18 @@ class Concept : public Element {
   friend class Category;
 
 public:
-  Concept(const std::string& inner_name, const CategoryPtr& category)
-      : iname(inner_name), mCategory(category){};
+  Concept(const std::string& iname, const CategoryPtr& category)
+      : iname(iname), mCategory(category){};
 
-  Concept(const std::string& inner_name, const CategoryPtr& category,
+  Concept(const std::string& iname, const CategoryPtr& category,
           const ElementPtr& parent_element, const ContextPtr& context)
-      : iname(inner_name),
+      : iname(iname),
         mCategory(category),
         mParent(parent_element),
         mContext(context){};
+
+  inline bool is_entity() const { return false; }
+  inline bool is_relation() const { return false; }
 
   inline std::string inner_name() { return iname; }
   inline std::weak_ptr<Category>& category() { return mCategory; }
@@ -76,12 +72,12 @@ public:
   }
 
   // TODO: add custom repr filter
-  std::vector<ConceptReprPtr> get_repr(const ConceptRepr::repr_modal modal) {
+  std::list<ConceptReprPtr> get_repr(const ConceptRepr::repr_modal modal) {
     auto found = repr_map.find(modal);
     if (found != repr_map.end()) {
       return found->second;
     }
-    return std::vector<ConceptReprPtr>{};
+    return std::list<ConceptReprPtr>{};
   }
 
   inline uint32_t repr_count() {
@@ -106,12 +102,21 @@ protected:
 private:
   std::string iname;
   std::weak_ptr<Category> mCategory;
+
+  // Inherited linage: one element would have an empty or single parent with
+  // inner data structure. Multiple inheritance is supported to convert to a
+  // intersection-like link. Meanwhile, the inner mParent is set to nullptr.
   ElementPtr mParent;
+
+  // An element would have an empty (default) or single related context when
+  // user provides. A context link would be created when more than one contexts
+  // are related to the element.
   ContextPtr mContext;
-  uint32_t mMember;
 
   // stored representations
-  std::map<ConceptRepr::repr_modal, std::vector<ConceptReprPtr>> repr_map;
+  std::map<ConceptRepr::repr_modal, std::list<ConceptReprPtr>> repr_map;
+
+  // TODO: support general properties
 };
 
 /**
@@ -145,27 +150,9 @@ static inline
       std::const_pointer_cast<T>(concept));
 }
 
-class Entity : public Concept {
-public:
-  Entity() = default;
-
-  bool is_entity() const { return true; }
-};
-
-class Relation : public Concept {
-public:
-  bool is_relation() const { return true; }
-};
-
-class Indv : public Entity {};
-
-class Link : public Relation {};
-
 class Role : public Concept {
 public:
   bool is_role() const { return true; }
 };
-
-class Context : public Concept {};
 
 }  // namespace hyperkb

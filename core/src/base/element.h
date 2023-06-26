@@ -11,7 +11,11 @@ using ElementPtr = std::shared_ptr<Element>;
 using ElementType = uint32_t;
 using HashVal = uint64_t;
 using Arity = uint64_t;
+using MarkerType = uint64_t;
 
+/**
+ * @brief Element is the root class of everything in the KB.
+ */
 class Element {
 public:
   static const HashVal INVALID_HASH = std::numeric_limits<size_t>::max();
@@ -23,11 +27,11 @@ public:
   virtual std::string to_string() const = 0;
   virtual bool is_concept() const { return false; }
 
-  inline std::string& get_uuid(bool local = false) {
-    return local ? this->local_uuid : this->uuid;
-  }
+  // Global and local identifier
+  inline std::string& global_id() { return this->uuid; }
+  inline std::string& local_id() { return this->local_uuid; }
 
-  inline HashVal get_hash() const {
+  inline HashVal hash() const {
     if (Element::INVALID_HASH != _hash_value) return _hash_value;
     _hash_value = compute_hash();
     return _hash_value;
@@ -35,16 +39,18 @@ public:
 
   // The arity represents the number of incoming N-ary-wires for Node, and
   // the number of all N-ary-wires elements for Link.
-  virtual Arity get_arity() const { return 0; }
+  virtual Arity arity() const { return 0; }
 
   // Object equality
   virtual bool operator==(const Element&) const = 0;
-  bool operator!=(const Element& other) const { return not operator==(other); }
   virtual bool operator<(const Element&) const = 0;
+  bool operator!=(const Element& other) const { return not operator==(other); }
 
 protected:
   std::string uuid;  // global identifier
   std::string local_uuid;
+
+  MarkerType markers;  // bit-wise markers
 
   explicit Element(const Element& other) {}
   explicit Element(Element&& other) {}

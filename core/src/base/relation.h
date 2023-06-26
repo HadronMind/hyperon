@@ -6,8 +6,6 @@ namespace hyperkb {
 
 class Relation;
 using RelationPtr = std::shared_ptr<Relation>;
-class Link;
-using LinkPtr = std::shared_ptr<Link>;
 
 class Relation : public Concept {
 public:
@@ -17,7 +15,5 @@ protected:
 };
 
 class Split : public Relation {};
-
-class Link : public Relation {};
 
 }  // namespace hyperkb

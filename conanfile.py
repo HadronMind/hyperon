@@ -6,9 +6,9 @@ from conan.tools.files import load
 required_conan_version = ">=2.0.4"
 
 
-class hyperkdb_coreRecipe(ConanFile):
-    name = "hyperkdb_core"
-    version = "1.0"
+class hyperkbRecipe(ConanFile):
+    name = "hyperkb"
+    version = "0.1.1"
 
     # Optional metadata
     license = "Apache 2.0"
@@ -66,7 +66,7 @@ class hyperkdb_coreRecipe(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["hyperkdb_core"]
+        self.cpp_info.libs = ["hyperkb"]
 
 
 

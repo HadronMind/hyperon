@@ -10,6 +10,7 @@
 
 #include "category_manager.h"
 #include "concept_repr.h"
+#include "lineage.h"
 
 namespace hyperkb {
 
@@ -37,7 +38,7 @@ public:
           const ElementPtr& parent_element, const ContextPtr& context)
       : iname(iname),
         mCategory(category),
-        mParent(parent_element),
+        //     mParent(parent_element),
         mContext(context){};
 
   inline bool is_entity() const { return false; }
@@ -45,7 +46,7 @@ public:
 
   inline std::string inner_name() { return iname; }
   inline std::weak_ptr<Category>& category() { return mCategory; }
-  inline ElementPtr& parent() { return mParent; }
+  // inline ElementPtr& parent() { return mParent; }
   inline ContextPtr& context() { return mContext; }
 
   /**
@@ -103,10 +104,7 @@ private:
   std::string iname;
   std::weak_ptr<Category> mCategory;
 
-  // Inherited linage: one element would have an empty or single parent with
-  // inner data structure. Multiple inheritance is supported to convert to a
-  // intersection-like link. Meanwhile, the inner mParent is set to nullptr.
-  ElementPtr mParent;
+  LineagePtr mLineage;
 
   // An element would have an empty (default) or single related context when
   // user provides. A context link would be created when more than one contexts

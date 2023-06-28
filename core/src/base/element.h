@@ -47,10 +47,12 @@ public:
   bool operator!=(const Element& other) const { return not operator==(other); }
 
 protected:
-  std::string uuid;  // global identifier
+  // global and local identifier, reserved
+  std::string uuid;
   std::string local_uuid;
 
-  MarkerType markers;  // bit-wise markers
+  // bit-wise markers, reserved
+  MarkerType markers;
 
   explicit Element(const Element& other) {}
   explicit Element(Element&& other) {}

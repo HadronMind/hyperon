@@ -1,7 +1,10 @@
 #pragma once
 
 #include "base/category_manager.h"
+#include "base/category.h"
+#include "base/concept_repr.h"
 #include "base/concept.h"
+#include "base/context.h"
 #include "base/element.h"
 
 #ifdef _WIN32

@@ -8,18 +8,19 @@
 #include <memory>
 #include <string>
 
-#include "category_manager.h"
 #include "concept_repr.h"
-#include "lineage.h"
+#include "element.h"
 
 namespace hyperkb {
 
 class Concept;
 using ConceptPtr = std::shared_ptr<Concept>;
-class Role;
-using RolePtr = std::shared_ptr<Role>;
 class Context;
 using ContextPtr = std::shared_ptr<Context>;
+class Category;
+using CategoryPtr = std::shared_ptr<Category>;
+class Lineage;
+using LineagePtr = std::shared_ptr<Lineage>;
 
 /**
  * @brief Base class to represent a general concept.
@@ -148,9 +149,11 @@ static inline
       std::const_pointer_cast<T>(concept));
 }
 
-class Role : public Concept {
-public:
-  bool is_role() const { return true; }
+class Lineage {
+  class Union {};
+  class Split {};
+  std::map<std::string, ConceptPtr> mParentsMap;
+  std::map<std::string, ConceptPtr> mChildrenMap;
 };
 
 }  // namespace hyperkb

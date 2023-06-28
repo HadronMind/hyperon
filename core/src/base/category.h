@@ -5,12 +5,11 @@
 #include <memory>
 #include <string>
 
+#include "concept.h"
 #include "element.h"
 
 namespace hyperkb {
 
-class Concept;
-using ConceptPtr = std::shared_ptr<Concept>;
 class Category;
 using CategoryPtr = std::shared_ptr<Category>;
 

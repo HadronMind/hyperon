@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 
 #include "concept_repr.h"
@@ -19,8 +20,6 @@ class Context;
 using ContextPtr = std::shared_ptr<Context>;
 class Category;
 using CategoryPtr = std::shared_ptr<Category>;
-class Lineage;
-using LineagePtr = std::shared_ptr<Lineage>;
 
 /**
  * @brief Base class to represent a general concept.
@@ -97,6 +96,30 @@ public:
   // Concept in string is denoted by curly braces.
   std::string to_string() { return fmt::format("\\{{}\\}", iname); }
 
+  // Lineage
+  bool has_parent(const ConceptPtr& parent);
+  bool has_parent(const std::string& parent);
+  bool has_child(const ConceptPtr& child);
+  bool has_child(const std::string& child);
+  void add_parent(const ConceptPtr& parent);
+  void add_parents(const ConceptPtr& parents...);
+  void add_child(const ConceptPtr& child);
+  void add_children(const ConceptPtr& children...);
+  void remove_parent(const ConceptPtr& parent);
+  void remove_parent(const std::string& parent);
+  void remove_child(const ConceptPtr& child);
+  void remove_child(const std::string& child);
+  void add_parents_union(const ConceptPtr& parents...);
+  void add_children_split(const ConceptPtr& children...);
+  bool has_unioned_parents(const ConceptPtr& parents...);
+  bool has_unioned_parents(const std::string& parents...);
+  bool has_split_children(const ConceptPtr& children...);
+  bool has_split_children(const std::string& children...);
+  void dismiss_parents_union(const ConceptPtr& parents...);
+  void dismiss_parents_union(const std::string& parents...);
+  void dismiss_children_split(const ConceptPtr& children...);
+  void dismiss_children_split(const std::string& children...);
+
 protected:
   explicit Concept(const Concept&) {}
   explicit Concept(Concept&&) {}
@@ -105,8 +128,6 @@ private:
   std::string iname;
   std::weak_ptr<Category> mCategory;
 
-  LineagePtr mLineage;
-
   // An element would have an empty (default) or single related context when
   // user provides. A context link would be created when more than one contexts
   // are related to the element.
@@ -114,6 +135,15 @@ private:
 
   // stored representations
   std::map<ConceptRepr::repr_modal, std::list<ConceptReprPtr>> repr_map;
+
+  // Lineage: an embedded relation contains the conceptual hierarchy to reduce
+  // the link numbers and avoid link iteration when reasoning.
+  std::map<std::string, ConceptPtr> mParentsMap;
+  std::map<std::string, ConceptPtr> mChildrenMap;
+  // Parents group representing composites of a concept
+  std::list<std::set<ConceptPtr>> mUnions;
+  // Children group representing mutually exclusive relation
+  std::list<std::set<ConceptPtr>> mSplits;
 
   // TODO: support general properties
 };
@@ -148,12 +178,5 @@ static inline
   return std::dynamic_pointer_cast<Concept>(
       std::const_pointer_cast<T>(concept));
 }
-
-class Lineage {
-  class Union {};
-  class Split {};
-  std::map<std::string, ConceptPtr> mParentsMap;
-  std::map<std::string, ConceptPtr> mChildrenMap;
-};
 
 }  // namespace hyperkb

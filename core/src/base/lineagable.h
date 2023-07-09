@@ -2,7 +2,9 @@
 
 #include <list>
 #include <map>
+#include <set>
 #include <string>
+#include <unordered_map>
 
 #include "element.h"
 
@@ -90,14 +92,14 @@ protected:
    * TODO: optimize virtual func calls
    */
   virtual std::string _element_key_string(const ElementPtr& ele) = 0;
-}
+};
 
 /**
  * @brief A kind of lineage with parent unions and children splits.
  */
 class UnionSplitLineagable : public Lineagable {
   inline bool has_parent(const std::string& parent) {
-    return mParentsMap.find(parent) != mParentMap.end();
+    return mParentsMap.find(parent) != mParentsMap.end();
   }
 
   inline bool has_child(const std::string& child) {
@@ -107,7 +109,7 @@ class UnionSplitLineagable : public Lineagable {
   inline bool add_parent(const ElementPtr& parent) {
     std::string pkey = _element_key_string(parent);
     auto res =
-        mParentMap.insert(std::pair<std::string, ElementPtr>(pkey, parent));
+        mParentsMap.insert(std::pair<std::string, ElementPtr>(pkey, parent));
     return res.second;
   }
 
@@ -119,18 +121,18 @@ class UnionSplitLineagable : public Lineagable {
   }
 
   inline bool remove_parent(const std::string& parent) {
-    auto it = mParentMap.find(parent);
-    if (it != mParentMap.end()) {
-      mParentMap.erase(it);
+    auto it = mParentsMap.find(parent);
+    if (it != mParentsMap.end()) {
+      mParentsMap.erase(it);
       return true;
     }
     return false;
   }
 
   inline bool remove_child(const std::string& child) {
-    auto it = mParentMap.find(parent);
-    if (it != mParentMap.end()) {
-      mParentMap.erase(it);
+    auto it = mChildrenMap.find(child);
+    if (it != mChildrenMap.end()) {
+      mChildrenMap.erase(it);
       return true;
     }
     return false;
@@ -190,7 +192,7 @@ class UnionSplitLineagable : public Lineagable {
 protected:
   // Use global UUID as the default element key string.
   inline std::string _element_key_string(const ElementPtr& ele) {
-    return ele->uuid;
+    return ele->global_id();
   }
 
 private:

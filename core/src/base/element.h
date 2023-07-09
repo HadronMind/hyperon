@@ -64,6 +64,9 @@ protected:
   mutable HashVal _hash_value{Element::INVALID_HASH};
   virtual ElementType get_element_type() { return INVALID_TYPE; }
   virtual HashVal compute_hash() const = 0;
+
+private:
+  friend class Lineagable;
 };
 
 /**

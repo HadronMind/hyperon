@@ -24,14 +24,14 @@ using CategoryPtr = std::shared_ptr<Category>;
  */
 class Category {
 public:
-  explicit Category(const std::string& name){};
+  explicit Category(const std::string& name) : mName(name){};
 
   /**
    * @brief Get the number of enclosed/nested categories. (non-recursively)
    *
    * @return uint64_t The number of enclosed categories.
    */
-  inline uint64_t enclosed_category_count() const { return subns_map.size(); }
+  inline uint64_t EnclosedCategoryCount() const { return mSubnsMap.size(); }
 
   /**
    * @brief Check if containing a nested category. (non-recursively)
@@ -39,8 +39,8 @@ public:
    * @param ns Target category name
    * @return boolean
    */
-  inline bool encloses_category(const std::string& ns) {
-    return subns_map.find(ns) != subns_map.end();
+  inline bool EnclosesCategory(const std::string& ns) {
+    return mSubnsMap.find(ns) != mSubnsMap.end();
   };
 
   /**
@@ -49,14 +49,7 @@ public:
    * @param ns Target category name
    * @param result Found category pointer or nullptr
    */
-  void get_enclosed_category(const std::string& ns, CategoryPtr& result) {
-    auto cf = subns_map.find(ns);
-    if (cf != subns_map.end()) {
-      result = cf->second;
-    } else {
-      result = nullptr;
-    }
-  };
+  void GetEnclosedCategory(const std::string& ns, CategoryPtr& result) const;
 
   /**
    * @brief The number of contained elements in the category, without enclosed
@@ -64,7 +57,7 @@ public:
    *
    * @return uint64_t
    */
-  inline uint64_t element_count() const {
+  inline uint64_t ElementCount() const {
     return mNonConceptEleNum + mConceptEleNum;
   }
 
@@ -74,9 +67,9 @@ public:
    * @param uuid Target element UUID
    * @return boolean
    */
-  inline bool has_element(const std::string& uuid) {
-    return cnpt_map.find(uuid) != cnpt_map.end() ||
-           non_cnpt_map.find(uuid) != non_cnpt_map.end();
+  inline bool HasElement(const std::string& uuid) {
+    return mCnptMap.find(uuid) != mCnptMap.end() ||
+           mNonCnptMap.find(uuid) != mNonCnptMap.end();
   };
 
   /**
@@ -85,16 +78,7 @@ public:
    * @param uuid Target element UUID
    * @param result Element pointer or nullptr
    */
-  void get_element(const std::string& uuid, ElementPtr& result) {
-    auto cf = cnpt_map.find(uuid);
-    if (cf != cnpt_map.end()) {
-      result = std::dynamic_pointer_cast<Element>(cf->second);
-    }
-    auto ef = non_cnpt_map.find(uuid);
-    if (ef != non_cnpt_map.end()) {
-      result = ef->second;
-    }
-  };
+  void GetElement(const std::string& uuid, ElementPtr& result) const;
 
   /**
    * @brief The number of Concept elements. We use template to control the
@@ -105,17 +89,8 @@ public:
    * * Get concept: get_concept<T>(iname, result)
    */
   template <typename T>
-  inline typename std::enable_if_t<std::is_base_of<Concept, T>::value, uint64_t>
-  concept_count() const {
-    if constexpr (std::is_same<T, class Concept>::value) return mConceptEleNum;
-    if constexpr (std::is_same<T, class Entity>::value) return mEntityNum;
-    if constexpr (std::is_same<T, class Relation>::value) return mRelationNum;
-    if constexpr (std::is_same<T, class Indv>::value) return mIndvNum;
-    if constexpr (std::is_same<T, class Link>::value) return mLinkNum;
-    if constexpr (std::is_same<T, class Role>::value) return mRoleNum;
-    if constexpr (std::is_same<T, class Context>::value) return mContextNum;
-    return 0;
-  }
+  typename std::enable_if_t<std::is_base_of<Concept, T>::value, uint64_t>
+  ConceptCount() const;
 
   /**
    * @brief Get the concept object
@@ -126,16 +101,8 @@ public:
    * @return std::enable_if_t<std::is_base_of<Concept, T>::value, bool>
    */
   template <typename T>
-  inline typename std::enable_if_t<std::is_base_of<Concept, T>::value, bool>
-  get_concept(const std::string& iname, std::shared_ptr<T>& result) {
-    auto found = cnpt_map.find(iname);
-    if (found == cnpt_map.end()) {
-      result = nullptr;
-      return false;
-    }
-    result = std::dynamic_pointer_cast<T>(found->second);
-    return true;
-  }
+  typename std::enable_if_t<std::is_base_of<Concept, T>::value, bool>
+  GetConcept(const std::string& iname, std::shared_ptr<T>& result) const;
 
   /**
    * @brief Check the existence of specific concept (non-recursively)
@@ -145,22 +112,19 @@ public:
    * @return std::enable_if_t<std::is_base_of<Concept, T>::value, bool>
    */
   template <typename T>
-  inline typename std::enable_if_t<std::is_base_of<Concept, T>::value, bool>
-  has_concept(const std::string& iname) const {
-    std::shared_ptr<T> csp;
-    return get_concept<T>(iname, csp);
-  }
+  typename std::enable_if_t<std::is_base_of<Concept, T>::value, bool>
+  HasConcept(const std::string& iname) const;
 
 protected:
   // Parent category, default nullptr
-  CategoryPtr superior;
+  CategoryPtr mSuperior;
   // All enclosed categories, as map<ns_name, ptr>
-  std::map<std::string, CategoryPtr> subns_map;
+  std::map<std::string, CategoryPtr> mSubnsMap;
 
   // Currently the concept set is equivelent with element set.
-  // non_cnpt_map reserved for future use.
-  std::map<std::string, ConceptPtr> cnpt_map;
-  std::map<std::string, ElementPtr> non_cnpt_map;
+  // mNonCnptMap reserved for future use.
+  std::map<std::string, ConceptPtr> mCnptMap;
+  std::map<std::string, ElementPtr> mNonCnptMap;
 
 private:
   std::string mName;

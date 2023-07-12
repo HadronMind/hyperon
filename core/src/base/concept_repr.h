@@ -16,18 +16,18 @@ public:
   /**
    * Representation modal signature
    */
-  enum repr_modal {
-    modal_natlang,  // Raw string desc
-    modal_image,
-    modal_sound,
-    modal_vector,
-    modal_prolog_e,  // Prolog eval
-    modal_guile_e,   // Guile eval
+  enum REPR_MODAL {
+    MODAL_NATLANG,  // Raw string desc
+    MODAL_IMAGE,
+    MODAL_SOUND,
+    MODAL_VECTOR,
+    MODAL_PROLOG_E,  // Prolog eval
+    MODAL_GUILE_E,   // Guile eval
   };
 
-  inline repr_modal get_modal() { return m_modal; }
+  inline REPR_MODAL GetModal() const { return mModal; }
 
-  virtual std::string to_string() = 0;
+  virtual std::string ToString() const = 0;
 
 protected:
   ConceptRepr() = default;
@@ -37,7 +37,7 @@ protected:
   ConceptRepr& operator=(const ConceptRepr&) { return *this; };
   ConceptRepr& operator=(ConceptRepr&&) { return *this; }
 
-  repr_modal m_modal;
+  REPR_MODAL mModal;
 };
 
 using ConceptReprPtr = std::shared_ptr<ConceptRepr>;
@@ -62,32 +62,32 @@ cast_to_ConceptRepr(const std::shared_ptr<const T>& obj) {
  */
 class ConceptReprNL : ConceptRepr {
 public:
-  enum modal_natlang_type { english, chinese };
+  enum MODAL_NATLANG_TYPE { ENGLISH, CHINESE };
 
-  ConceptReprNL(const std::string& desc, const modal_natlang_type lang_type,
+  ConceptReprNL(const std::string& desc, const MODAL_NATLANG_TYPE lang_type,
                 const std::string encoding = "utf-8")
       : mLangType(lang_type), mEncoding(encoding), mLangDesc(desc) {
-    this->m_modal = modal_natlang;
+    this->mModal = MODAL_NATLANG;
   }
 
-  inline std::string& get_repr() { return mLangDesc; }
+  inline std::string& GetRepr() { return mLangDesc; }
 
-  std::string to_string() { return mLangDesc; }
+  std::string ToString() { return mLangDesc; }
 
 protected:
-  modal_natlang_type mLangType;
+  MODAL_NATLANG_TYPE mLangType;
   std::string mEncoding;
   std::string mLangDesc;
 };
 
 class ConceptReprImage : ConceptRepr {
 public:
-  ConceptReprImage() { this->m_modal = modal_image; }
+  ConceptReprImage() { this->mModal = MODAL_IMAGE; }
 };
 
 class ConceptReprGuile : ConceptRepr {
 public:
-  ConceptReprGuile() { this->m_modal = modal_guile_e; }
+  ConceptReprGuile() { this->mModal = MODAL_GUILE_E; }
 };
 
 }  // namespace hyperkb

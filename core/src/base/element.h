@@ -11,7 +11,7 @@ using ElementPtr = std::shared_ptr<Element>;
 using ElementType = uint32_t;
 
 using HashVal = uint64_t;
-using Arity = uint64_t;
+using ArityType = uint64_t;
 using MarkerType = uint64_t;
 
 /**
@@ -25,22 +25,18 @@ public:
   Element() = default;
   virtual ~Element() = default;
 
-  virtual std::string to_string() const = 0;
-  virtual bool is_concept() const { return false; }
-
   // Global and local identifier
-  inline std::string& global_id() { return this->uuid; }
-  inline std::string& local_id() { return this->local_uuid; }
+  inline std::string& GlobalId() { return this->uuid; }
+  inline std::string& LocalId() { return this->local_uuid; }
 
-  inline HashVal hash() const {
-    if (Element::INVALID_HASH != _hash_value) return _hash_value;
-    _hash_value = compute_hash();
-    return _hash_value;
-  }
+  virtual std::string ToString() const = 0;
+  virtual bool IsConcept() const { return false; }
+
+  virtual HashVal Hash() const;
 
   // The arity represents the number of incoming N-ary-wires for Node, and
   // the number of all N-ary-wires elements for Link.
-  virtual Arity arity() const { return 0; }
+  virtual ArityType Arity() const { return 0; }
 
   // Object equality
   virtual bool operator==(const Element&) const = 0;
@@ -61,9 +57,9 @@ protected:
   Element& operator=(const Element&) { return *this; };
   Element& operator=(Element&&) noexcept { return *this; };
 
-  mutable HashVal _hash_value{Element::INVALID_HASH};
-  virtual ElementType get_element_type() { return INVALID_TYPE; }
-  virtual HashVal compute_hash() const = 0;
+  mutable HashVal mHashedVal{Element::INVALID_HASH};
+  virtual ElementType GetElementType() { return INVALID_TYPE; }
+  virtual HashVal ComputeHash() const = 0;
 };
 
 /**

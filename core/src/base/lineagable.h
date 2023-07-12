@@ -23,9 +23,9 @@ public:
    * @return true
    * @return false
    */
-  virtual bool has_parent(const std::string& parent) = 0;
-  bool has_parent(const ElementPtr& parent) {
-    return has_parent(_element_key_string(parent));
+  virtual bool HasParent(const std::string& parent) const = 0;
+  bool HasParent(const ElementPtr& parent) const {
+    return HasParent(GetElementKeyStr(parent));
   };
 
   /**
@@ -35,9 +35,9 @@ public:
    * @return true
    * @return false
    */
-  virtual bool has_child(const std::string& child) = 0;
-  bool has_child(const ElementPtr& child) {
-    return has_child(_element_key_string(child));
+  virtual bool HasChild(const std::string& child) const = 0;
+  bool HasChild(const ElementPtr& child) const {
+    return HasChild(GetElementKeyStr(child));
   };
 
   /**
@@ -47,7 +47,7 @@ public:
    * @return true if the parent is not existed and added successfully.
    * @return false if the parent already existing.
    */
-  virtual bool add_parent(const ElementPtr& parent) = 0;
+  virtual bool AddParent(const ElementPtr& parent) = 0;
 
   /**
    * @brief Add a child to the lineage.
@@ -56,7 +56,7 @@ public:
    * @return true if the child is not existed and added successfully.
    * @return false if the child already existing.
    */
-  virtual bool add_child(const ElementPtr& child) = 0;
+  virtual bool AddChild(const ElementPtr& child) = 0;
 
   /**
    * @brief Remove specific parent from the lineage.
@@ -65,9 +65,9 @@ public:
    * @return true if the parent is removed successfully.
    * @return false if the parent is absent.
    */
-  virtual bool remove_parent(const std::string& parent) = 0;
-  bool remove_parent(const ElementPtr& parent) {
-    return remove_parent(_element_key_string(parent));
+  virtual bool RemoveParent(const std::string& parent) = 0;
+  bool RemoveParent(const ElementPtr& parent) {
+    return RemoveParent(this->GetElementKeyStr(parent));
   }
 
   /**
@@ -77,9 +77,9 @@ public:
    * @return true if the child is removed successfully.
    * @return false if the child is absent.
    */
-  virtual bool remove_child(const std::string& child) = 0;
-  bool remove_child(const ElementPtr& child) {
-    return remove_child(_element_key_string(child));
+  virtual bool RemoveChild(const std::string& child) = 0;
+  bool RemoveChild(const ElementPtr& child) {
+    return RemoveChild(this->GetElementKeyStr(child));
   };
 
 protected:
@@ -91,52 +91,28 @@ protected:
    *
    * TODO: optimize virtual func calls
    */
-  virtual std::string _element_key_string(const ElementPtr& ele) = 0;
+  virtual std::string GetElementKeyStr(const ElementPtr& ele) const = 0;
 };
 
 /**
  * @brief A kind of lineage with parent unions and children splits.
  */
 class UnionSplitLineagable : public Lineagable {
-  inline bool has_parent(const std::string& parent) {
+  inline bool HasParent(const std::string& parent) const {
     return mParentsMap.find(parent) != mParentsMap.end();
   }
 
-  inline bool has_child(const std::string& child) {
+  inline bool HasChild(const std::string& child) const {
     return mChildrenMap.find(child) != mChildrenMap.end();
   }
 
-  inline bool add_parent(const ElementPtr& parent) {
-    std::string pkey = _element_key_string(parent);
-    auto res =
-        mParentsMap.insert(std::pair<std::string, ElementPtr>(pkey, parent));
-    return res.second;
-  }
+  bool AddParent(const ElementPtr& parent);
 
-  inline bool add_child(const ElementPtr& child) {
-    std::string pkey = _element_key_string(child);
-    auto res =
-        mChildrenMap.insert(std::pair<std::string, ElementPtr>(pkey, child));
-    return res.second;
-  }
+  bool AddChild(const ElementPtr& child);
 
-  inline bool remove_parent(const std::string& parent) {
-    auto it = mParentsMap.find(parent);
-    if (it != mParentsMap.end()) {
-      mParentsMap.erase(it);
-      return true;
-    }
-    return false;
-  }
+  bool RemoveParent(const std::string& parent);
 
-  inline bool remove_child(const std::string& child) {
-    auto it = mChildrenMap.find(child);
-    if (it != mChildrenMap.end()) {
-      mChildrenMap.erase(it);
-      return true;
-    }
-    return false;
-  }
+  bool RemoveChild(const std::string& child);
 
   /**
    * @brief Add the given parents into a union or ensure they are alreay in a
@@ -145,7 +121,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given parents are added into a union.
    * @return false The given parents are alreayd in a union.
    */
-  bool add_parents_union(const ElementPtr& parents...);
+  bool AddParentsUnion(const ElementPtr& parents...);
 
   /**
    * @brief Add the given children into a split or ensure they are alreay in a
@@ -154,7 +130,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given children are added into a split.
    * @return false The given children are alreayd in a split.
    */
-  bool add_children_split(const ElementPtr& children...);
+  bool AddChildrenSplit(const ElementPtr& children...);
 
   /**
    * @brief Check whether the given parents are in a union or not.
@@ -162,7 +138,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given parents are in a union.
    * @return false They are not fully in a union.
    */
-  bool has_unioned_parents(const ElementPtr& parents...);
+  bool HasUnionedParents(const ElementPtr& parents...);
 
   /**
    * @brief Check whether the given children are in a split or not.
@@ -170,7 +146,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given children are in a split.
    * @return false They are not fully in a split.
    */
-  bool has_split_children(const ElementPtr& children...);
+  bool HasSplitChildren(const ElementPtr& children...);
 
   /**
    * @brief Eliminate the union bound between given parents.
@@ -178,7 +154,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The parents are present in a union and dismissed successfully.
    * @return false They are not fully present or dismissed failed.
    */
-  bool dismiss_parents_union(const ElementPtr& parents...);
+  bool DismissParentsUnion(const ElementPtr& parents...);
 
   /**
    * @brief Eliminate the split bound between given children.
@@ -187,13 +163,11 @@ class UnionSplitLineagable : public Lineagable {
    * successfully.
    * @return false They are not fully present or dismissed failed.
    */
-  bool dismiss_children_split(const ElementPtr& children...);
+  bool DismissChildrenSplit(const ElementPtr& children...);
 
 protected:
   // Use global UUID as the default element key string.
-  inline std::string _element_key_string(const ElementPtr& ele) {
-    return ele->global_id();
-  }
+  virtual std::string GetElementKeyStr(const ElementPtr& ele);
 
 private:
   // All parents map for fast indexing

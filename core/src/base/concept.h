@@ -1,7 +1,5 @@
 #pragma once
 
-#include <fmt/core.h>
-
 #include <limits>
 #include <list>
 #include <map>
@@ -41,13 +39,13 @@ public:
         //     mParent(parent_element),
         mContext(context){};
 
-  inline bool is_entity() const { return false; }
-  inline bool is_relation() const { return false; }
+  inline bool IsEntity() const { return false; }
+  inline bool IsRelation() const { return false; }
 
-  inline std::string inner_name() { return iname; }
-  inline std::weak_ptr<Category>& category() { return mCategory; }
+  inline std::string GetInnerName() const { return iname; }
+  inline std::weak_ptr<Category>& GetCategory() { return mCategory; }
   // inline ElementPtr& parent() { return mParent; }
-  inline ContextPtr& context() { return mContext; }
+  inline ContextPtr& GetContext() { return mContext; }
 
   /**
    * @brief Check the object is instantized from Concept subtype.
@@ -56,7 +54,7 @@ public:
    */
   template <typename T>
   inline typename std::enable_if_t<std::is_base_of<Concept, T>::value, bool>
-  is_instance_of() {
+  IsInstanceOf() const {
     return std::dynamic_pointer_cast<T>(*this) != nullptr;
   }
 
@@ -66,35 +64,17 @@ public:
    * @param repr
    * @param modal
    */
-  void add_repr(const ConceptReprPtr& repr,
-                const ConceptRepr::repr_modal modal) {
-    auto repr_vec = repr_map[modal];
-    repr_vec.push_back(repr);
-  }
+  void AddRepr(const ConceptReprPtr& repr, const ConceptRepr::REPR_MODAL modal);
 
   // TODO: add custom repr filter
-  std::list<ConceptReprPtr> get_repr(const ConceptRepr::repr_modal modal) {
-    auto found = repr_map.find(modal);
-    if (found != repr_map.end()) {
-      return found->second;
-    }
-    return std::list<ConceptReprPtr>{};
-  }
+  std::list<ConceptReprPtr> GetRepr(const ConceptRepr::REPR_MODAL modal) const;
 
-  inline uint32_t repr_count() {
-    uint32_t s = 0;
-    for (auto it = repr_map.begin(); it != repr_map.end(); it++) {
-      s += it->second.size();
-    }
-    return s;
-  }
+  uint32_t ReprCount() const;
 
-  inline uint32_t repr_count(const ConceptRepr::repr_modal modal) {
-    return get_repr(modal).size();
-  }
+  uint32_t ReprCount(const ConceptRepr::REPR_MODAL modal) const;
 
   // Concept in string is denoted by curly braces.
-  std::string to_string() { return fmt::format("\\{{}\\}", iname); }
+  std::string ToString() const;
 
 protected:
   explicit Concept(const Concept&) {}
@@ -115,7 +95,7 @@ private:
   ContextPtr mContext;
 
   // stored representations
-  std::map<ConceptRepr::repr_modal, std::list<ConceptReprPtr>> repr_map;
+  std::map<ConceptRepr::REPR_MODAL, std::list<ConceptReprPtr>> repr_map;
 
   // TODO: support general properties
 };

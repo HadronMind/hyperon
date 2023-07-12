@@ -6,7 +6,7 @@ namespace hyperkb {
 
 class Relation : public Concept {
 public:
-  bool is_relation() const { return true; }
+  bool IsRelation() const { return true; }
 
 protected:
 };

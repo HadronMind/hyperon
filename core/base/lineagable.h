@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bits/stl_pair.h>
+
 #include <list>
 #include <map>
 #include <set>
@@ -24,9 +26,7 @@ public:
    * @return false
    */
   virtual bool HasParent(const std::string& parent) const = 0;
-  bool HasParent(const ElementPtr& parent) const {
-    return HasParent(GetElementKeyStr(parent));
-  };
+  virtual bool HasParent(const ElementPtr& parent) const;
 
   /**
    * @brief Check whether the lineage contains specific child.
@@ -36,9 +36,7 @@ public:
    * @return false
    */
   virtual bool HasChild(const std::string& child) const = 0;
-  bool HasChild(const ElementPtr& child) const {
-    return HasChild(GetElementKeyStr(child));
-  };
+  virtual bool HasChild(const ElementPtr& child) const;
 
   /**
    * @brief Add a parent to the lineage.
@@ -66,9 +64,7 @@ public:
    * @return false if the parent is absent.
    */
   virtual bool RemoveParent(const std::string& parent) = 0;
-  bool RemoveParent(const ElementPtr& parent) {
-    return RemoveParent(this->GetElementKeyStr(parent));
-  }
+  virtual bool RemoveParent(const ElementPtr& parent);
 
   /**
    * @brief Remove specific child from the lineage.
@@ -78,9 +74,7 @@ public:
    * @return false if the child is absent.
    */
   virtual bool RemoveChild(const std::string& child) = 0;
-  bool RemoveChild(const ElementPtr& child) {
-    return RemoveChild(this->GetElementKeyStr(child));
-  };
+  virtual bool RemoveChild(const ElementPtr& child);
 
 protected:
   /**
@@ -88,8 +82,6 @@ protected:
    *
    * @param ele Element pointer.
    * @return std::string
-   *
-   * TODO: optimize virtual func calls
    */
   virtual std::string GetElementKeyStr(const ElementPtr& ele) const = 0;
 };
@@ -98,24 +90,15 @@ protected:
  * @brief A kind of lineage with parent unions and children splits.
  */
 class UnionSplitLineagable : public Lineagable {
-  inline bool HasParent(const std::string& parent) const {
-    return mParentsMap.find(parent) != mParentsMap.end();
-  }
-
-  inline bool HasChild(const std::string& child) const {
-    return mChildrenMap.find(child) != mChildrenMap.end();
-  }
-
-  bool AddParent(const ElementPtr& parent);
-
-  bool AddChild(const ElementPtr& child);
-
-  bool RemoveParent(const std::string& parent);
-
-  bool RemoveChild(const std::string& child);
+  /* override */ bool HasParent(const std::string& parent) const;
+  /* override */ bool HasChild(const std::string& child) const;
+  /* override */ bool AddParent(const ElementPtr& parent);
+  /* override */ bool AddChild(const ElementPtr& child);
+  /* override */ bool RemoveParent(const std::string& parent);
+  /* override */ bool RemoveChild(const std::string& child);
 
   /**
-   * @brief Add the given parents into a union or ensure they are alreay in a
+   * @brief Add the given parents into a union or ensure they are already in a
    * union.
    * @param parents A list of element pointers.
    * @return true The given parents are added into a union.
@@ -124,7 +107,7 @@ class UnionSplitLineagable : public Lineagable {
   bool AddParentsUnion(const ElementPtr& parents...);
 
   /**
-   * @brief Add the given children into a split or ensure they are alreay in a
+   * @brief Add the given children into a split or ensure they are already in a
    * split.
    * @param children A list of element pointers.
    * @return true The given children are added into a split.
@@ -167,17 +150,19 @@ class UnionSplitLineagable : public Lineagable {
 
 protected:
   // Use global UUID as the default element key string.
-  virtual std::string GetElementKeyStr(const ElementPtr& ele);
+  /* override */ virtual std::string GetElementKeyStr(const ElementPtr& ele);
+
+  typedef std::pair<ElementPtr, uint32_t> BaggedElem;
 
 private:
   // All parents map for fast indexing
-  std::unordered_map<std::string, ElementPtr> mParentsMap;
+  std::unordered_map<std::string, BaggedElem> mParentsMap;
   // All children map for fast indexing
-  std::unordered_map<std::string, ElementPtr> mChildrenMap;
+  std::unordered_map<std::string, BaggedElem> mChildrenMap;
   // Parents group representing composites of a concept
-  std::list<std::set<ElementPtr>> mUnions;
+  std::list<ElementBag> mUnions;
   // Children group representing mutually exclusive relation
-  std::list<std::set<ElementPtr>> mSplits;
+  std::list<ElementBag> mSplits;
 };
 
 }  // namespace hyperkb

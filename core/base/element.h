@@ -8,8 +8,9 @@ namespace hyperkb {
 
 class Element;
 using ElementPtr = std::shared_ptr<Element>;
-using ElementType = uint32_t;
+using ElementSet = std::set<ElementPtr>;
 
+using ElementType = uint32_t;
 using HashVal = uint64_t;
 using ArityType = uint64_t;
 using MarkerType = uint64_t;

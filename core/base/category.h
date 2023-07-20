@@ -5,8 +5,8 @@
 #include <memory>
 #include <string>
 
-#include "concept.h"
-#include "element.h"
+#include "base/concept.h"
+#include "base/element.h"
 
 namespace hyperkb {
 

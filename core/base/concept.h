@@ -7,8 +7,8 @@
 #include <set>
 #include <string>
 
-#include "concept_repr.h"
-#include "element.h"
+#include "base/concept_repr.h"
+#include "base/element.h"
 
 namespace hyperkb {
 

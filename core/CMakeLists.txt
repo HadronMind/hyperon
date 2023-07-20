@@ -1,4 +1,12 @@
-include_directories(src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_subdirectory(src)
-# add_subdirectory(test_package)
+add_subdirectory(base)
+add_subdirectory(link)
+add_subdirectory(guile)
+if(TEST_ON)
+add_subdirectory(tests)
+endif()
+
+add_library(hyperkb_core STATIC hyperkb.cc)
+target_link_libraries(hyperkb_core hyperkb_core_base ${fmt_INCLUDE_DIRS})
+set_target_properties(hyperkb_core PROPERTIES PUBLIC_HEADER "hyperkb.h")

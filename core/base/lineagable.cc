@@ -1,4 +1,4 @@
-#include "lineagable.h"
+#include "base/lineagable.h"
 
 namespace hyperkb {
 

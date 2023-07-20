@@ -1,6 +1,6 @@
 #pragma once
 
-#include "concept.h"
+#include "base/concept.h"
 
 namespace hyperkb {
 

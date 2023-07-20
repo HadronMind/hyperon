@@ -1,4 +1,4 @@
-#include "category.h"
+#include "base/category.h"
 
 namespace hyperkb {
 

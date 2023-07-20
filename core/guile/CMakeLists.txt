@@ -1,0 +1,1 @@
+file(GLOB guile_srcs CONFIGURE_DEPENDS "*.cpp" "*.cc")

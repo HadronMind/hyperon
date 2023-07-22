@@ -110,7 +110,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given parents are in a union.
    * @return false They are not fully in a union.
    */
-  bool HasUnionedParents(const std::list<ElementPtr>& parents);
+  bool HasUnionedParents(const std::list<ElementPtr>& parents) const;
 
   /**
    * @brief Check whether the given children are in a split or not.
@@ -118,10 +118,11 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given children are in a split.
    * @return false They are not fully in a split.
    */
-  bool HasSplitChildren(const std::list<ElementPtr>& children);
+  bool HasSplitChildren(const std::list<ElementPtr>& children) const;
 
   /**
-   * @brief Eliminate the union bound between given parents.
+   * @brief Eliminate the union bound between given parents. All unions
+   * containing given parents are dismissed.
    * @param parents A list of element pointers.
    * @return true The parents are present in a union and dismissed successfully.
    * @return false They are not fully present or dismissed failed.
@@ -129,7 +130,8 @@ class UnionSplitLineagable : public Lineagable {
   bool DismissParentsUnion(const std::list<ElementPtr>& parents);
 
   /**
-   * @brief Eliminate the split bound between given children.
+   * @brief Eliminate the split bound between given children. All splits
+   * containing given children are dismissed.
    * @param children A list of element pointers.
    * @return true The children are present in a split and dismissed
    * successfully.

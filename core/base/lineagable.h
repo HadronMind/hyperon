@@ -1,7 +1,5 @@
 #pragma once
 
-#include <bits/stl_pair.h>
-
 #include <list>
 #include <map>
 #include <set>
@@ -75,15 +73,6 @@ public:
    */
   virtual bool RemoveChild(const std::string& child) = 0;
   virtual bool RemoveChild(const ElementPtr& child);
-
-protected:
-  /**
-   * @brief Inner helper func to customize element string key.
-   *
-   * @param ele Element pointer.
-   * @return std::string
-   */
-  virtual std::string GetElementKeyStr(const ElementPtr& ele) const = 0;
 };
 
 /**
@@ -104,7 +93,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given parents are added into a union.
    * @return false The given parents are alreayd in a union.
    */
-  bool AddParentsUnion(const ElementPtr& parents...);
+  bool AddParentsUnion(const std::list<ElementPtr>& parents);
 
   /**
    * @brief Add the given children into a split or ensure they are already in a
@@ -113,7 +102,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given children are added into a split.
    * @return false The given children are alreayd in a split.
    */
-  bool AddChildrenSplit(const ElementPtr& children...);
+  bool AddChildrenSplit(const std::list<ElementPtr>& children);
 
   /**
    * @brief Check whether the given parents are in a union or not.
@@ -121,7 +110,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given parents are in a union.
    * @return false They are not fully in a union.
    */
-  bool HasUnionedParents(const ElementPtr& parents...);
+  bool HasUnionedParents(const std::list<ElementPtr>& parents);
 
   /**
    * @brief Check whether the given children are in a split or not.
@@ -129,7 +118,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The given children are in a split.
    * @return false They are not fully in a split.
    */
-  bool HasSplitChildren(const ElementPtr& children...);
+  bool HasSplitChildren(const std::list<ElementPtr>& children);
 
   /**
    * @brief Eliminate the union bound between given parents.
@@ -137,7 +126,7 @@ class UnionSplitLineagable : public Lineagable {
    * @return true The parents are present in a union and dismissed successfully.
    * @return false They are not fully present or dismissed failed.
    */
-  bool DismissParentsUnion(const ElementPtr& parents...);
+  bool DismissParentsUnion(const std::list<ElementPtr>& parents);
 
   /**
    * @brief Eliminate the split bound between given children.
@@ -146,23 +135,17 @@ class UnionSplitLineagable : public Lineagable {
    * successfully.
    * @return false They are not fully present or dismissed failed.
    */
-  bool DismissChildrenSplit(const ElementPtr& children...);
-
-protected:
-  // Use global UUID as the default element key string.
-  /* override */ virtual std::string GetElementKeyStr(const ElementPtr& ele);
-
-  typedef std::pair<ElementPtr, uint32_t> BaggedElem;
+  bool DismissChildrenSplit(const std::list<ElementPtr>& children);
 
 private:
   // All parents map for fast indexing
-  std::unordered_map<std::string, BaggedElem> mParentsMap;
+  std::unordered_map<std::string, ElementPtr> mParentsMap;
   // All children map for fast indexing
-  std::unordered_map<std::string, BaggedElem> mChildrenMap;
+  std::unordered_map<std::string, ElementPtr> mChildrenMap;
   // Parents group representing composites of a concept
-  std::list<ElementBag> mUnions;
+  std::list<std::set<std::string>> mUnions;
   // Children group representing mutually exclusive relation
-  std::list<ElementBag> mSplits;
+  std::list<std::set<std::string>> mSplits;
 };
 
 }  // namespace hyperkb

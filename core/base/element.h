@@ -8,7 +8,6 @@ namespace hyperkb {
 
 class Element;
 using ElementPtr = std::shared_ptr<Element>;
-using ElementSet = std::set<ElementPtr>;
 
 using ElementType = uint32_t;
 using HashVal = uint64_t;
@@ -27,8 +26,8 @@ public:
   virtual ~Element() = default;
 
   // Global and local identifier
-  inline std::string& GlobalId() { return this->uuid; }
-  inline std::string& LocalId() { return this->local_uuid; }
+  inline std::string& GlobalId() { return this->identifier; }
+  inline std::string& LocalId() { return this->local_identifier; }
 
   virtual std::string ToString() const = 0;
   virtual bool IsConcept() const { return false; }
@@ -46,8 +45,8 @@ public:
 
 protected:
   // global and local identifier, reserved
-  std::string uuid;
-  std::string local_uuid;
+  std::string identifier;
+  std::string local_identifier;
 
   // bit-wise markers, reserved
   MarkerType markers;

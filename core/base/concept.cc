@@ -4,6 +4,12 @@
 
 namespace hyperkb {
 
+Concept::Concept(const std::string& sname, const CategoryPtr& category,
+                 const ElementPtr& parent, const ContextPtr& context)
+    : sname(sname), mCategory(category), mContext(context) {
+  AddParent(parent);
+};
+
 void Concept::AddRepr(const ConceptReprPtr& repr,
                       const ConceptRepr::REPR_MODAL modal) {
   auto repr_vec = repr_map[modal];
@@ -31,6 +37,6 @@ uint32_t Concept::ReprCount(const ConceptRepr::REPR_MODAL modal) const {
   return GetRepr(modal).size();
 }
 
-std::string Concept::ToString() const { return fmt::format("\\{{}\\}", iname); }
+std::string Concept::ToString() const { return fmt::format("\\{{}\\}", sname); }
 
 }  // namespace hyperkb

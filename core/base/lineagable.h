@@ -25,7 +25,7 @@ public:
    */
   virtual bool HasParent(const std::string& parent) const = 0;
   virtual bool HasParent(const ElementPtr& parent) const {
-    return HasParent(parent->GlobalId());
+    return HasParent(parent->SemName());
   }
 
   /**
@@ -37,7 +37,7 @@ public:
    */
   virtual bool HasChild(const std::string& child) const = 0;
   virtual bool HasChild(const ElementPtr& child) const {
-    return HasChild(child->GlobalId());
+    return HasChild(child->SemName());
   }
 
   /**
@@ -67,7 +67,7 @@ public:
    */
   virtual bool RemoveParent(const std::string& parent) = 0;
   virtual bool RemoveParent(const ElementPtr& parent) {
-    return RemoveParent(parent->GlobalId());
+    return RemoveParent(parent->SemName());
   }
 
   /**
@@ -79,7 +79,7 @@ public:
    */
   virtual bool RemoveChild(const std::string& child) = 0;
   virtual bool RemoveChild(const ElementPtr& child) {
-    return RemoveChild(child->GlobalId());
+    return RemoveChild(child->SemName());
   }
 };
 

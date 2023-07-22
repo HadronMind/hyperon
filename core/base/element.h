@@ -26,12 +26,13 @@ public:
   virtual ~Element() = default;
 
   // Global and local identifier
-  inline std::string& GlobalId() { return this->identifier; }
-  inline std::string& LocalId() { return this->local_identifier; }
+  inline std::string GlobalId() const { return mIdentifier; }
+  inline std::string LocalId() const { return mLocalIdentifier; }
 
-  virtual std::string ToString() const = 0;
-  virtual bool IsConcept() const { return false; }
+  // Globally unique semantic name, as the same as identifier by default.
+  virtual inline std::string SemName() const { return mIdentifier; }
 
+  // Hashed value
   virtual HashVal Hash() const;
 
   // The arity represents the number of incoming N-ary-wires for Node, and
@@ -43,10 +44,16 @@ public:
   virtual bool operator<(const Element&) const = 0;
   bool operator!=(const Element& other) const { return not operator==(other); }
 
+  // Plain string representation of element
+  virtual std::string ToString() const = 0;
+
+  // Subclass indicator
+  virtual bool IsConcept() const { return false; }
+
 protected:
   // global and local identifier, reserved
-  std::string identifier;
-  std::string local_identifier;
+  std::string mIdentifier;
+  std::string mLocalIdentifier;
 
   // bit-wise markers, reserved
   MarkerType markers;

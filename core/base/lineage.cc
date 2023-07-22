@@ -14,13 +14,13 @@ bool UnionSplitLineage::HasChild(const std::string& child) const {
 
 bool UnionSplitLineage::AddParent(const ElementPtr& parent) {
   return mParentsMap
-      .insert(std::pair<std::string, ElementPtr>(parent->GlobalId(), parent))
+      .insert(std::pair<std::string, ElementPtr>(parent->SemName(), parent))
       .second;
 }
 
 bool UnionSplitLineage::AddChild(const ElementPtr& child) {
   return mChildrenMap
-      .insert(std::pair<std::string, ElementPtr>(child->GlobalId(), child))
+      .insert(std::pair<std::string, ElementPtr>(child->SemName(), child))
       .second;
 }
 

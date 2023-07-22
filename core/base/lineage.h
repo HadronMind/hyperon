@@ -8,6 +8,7 @@ namespace hyperkb {
  * @brief A kind of lineage with parent unions and children splits.
  */
 class UnionSplitLineage : public Lineagable {
+public:
   /* override */ bool HasParent(const std::string& parent) const;
   /* override */ bool HasChild(const std::string& child) const;
   /* override */ bool AddParent(const ElementPtr& parent);
@@ -15,6 +16,7 @@ class UnionSplitLineage : public Lineagable {
   /* override */ bool RemoveParent(const std::string& parent);
   /* override */ bool RemoveChild(const std::string& child);
 
+public:
   /**
    * @brief Add the given parents into a union or ensure they are already in a
    * union.

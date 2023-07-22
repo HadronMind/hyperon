@@ -26,31 +26,26 @@ using CategoryPtr = std::shared_ptr<Category>;
  * We formulate an Entity-Relation model, as well as two supplementary
  * concepts of Role and Context to construct the whole picture.
  */
-class Concept : public Element {
+class Concept : public Element, public UnionSplitLineage {
   friend class Category;
 
 public:
-  Concept(const std::string& iname, const CategoryPtr& category)
-      : iname(iname), mCategory(category){};
+  Concept(const std::string& sname, const CategoryPtr& category)
+      : sname(sname), mCategory(category){};
 
-  Concept(const std::string& iname, const CategoryPtr& category,
-          const ElementPtr& parent_element, const ContextPtr& context)
-      : iname(iname),
-        mCategory(category),
-        //     mParent(parent_element),
-        mContext(context){};
+  Concept(const std::string& sname, const CategoryPtr& category,
+          const ElementPtr& parent, const ContextPtr& context);
+
+  /*override*/ inline std::string SemName() const { return sname; }
 
   inline bool IsEntity() const { return false; }
   inline bool IsRelation() const { return false; }
 
-  inline std::string GetInnerName() const { return iname; }
-  inline std::weak_ptr<Category>& GetCategory() { return mCategory; }
-  // inline ElementPtr& parent() { return mParent; }
-  inline ContextPtr& GetContext() { return mContext; }
+  inline std::weak_ptr<Category> GetCategory() { return mCategory; }
+  inline std::shared_ptr<Context> GetContext() { return mContext; }
 
   /**
    * @brief Check the object is instantized from Concept subtype.
-   *
    * @return boolean
    */
   template <typename T>
@@ -59,6 +54,9 @@ public:
     return std::dynamic_pointer_cast<T>(*this) != nullptr;
   }
 
+  uint32_t ReprCount() const;
+  uint32_t ReprCount(const ConceptRepr::REPR_MODAL modal) const;
+
   /**
    * @brief Add new presentation to this concept. This operation always succeeds
    * if a valid modal is given.
@@ -66,13 +64,7 @@ public:
    * @param modal
    */
   void AddRepr(const ConceptReprPtr& repr, const ConceptRepr::REPR_MODAL modal);
-
-  // TODO: add custom repr filter
   std::list<ConceptReprPtr> GetRepr(const ConceptRepr::REPR_MODAL modal) const;
-
-  uint32_t ReprCount() const;
-
-  uint32_t ReprCount(const ConceptRepr::REPR_MODAL modal) const;
 
   // Concept in string is denoted by curly braces.
   std::string ToString() const;
@@ -83,11 +75,11 @@ protected:
 
 private:
   inline std::string _element_key_string(const ConceptPtr& ele) {
-    return ele->iname;
+    return ele->sname;
   }
 
 private:
-  std::string iname;
+  std::string sname;  // Semantic name
   std::weak_ptr<Category> mCategory;
 
   // An element would have an empty (default) or single related context when
@@ -99,9 +91,6 @@ private:
   std::map<ConceptRepr::REPR_MODAL, std::list<ConceptReprPtr>> repr_map;
 
   // TODO: support general properties
-
-  // Nested conceptual lineage
-  std::shared_ptr<UnionSplitLineage> mLineage;
 };
 
 /**

@@ -9,6 +9,7 @@
 
 #include "base/concept_repr.h"
 #include "base/element.h"
+#include "base/lineage.h"
 
 namespace hyperkb {
 
@@ -98,6 +99,9 @@ private:
   std::map<ConceptRepr::REPR_MODAL, std::list<ConceptReprPtr>> repr_map;
 
   // TODO: support general properties
+
+  // Nested conceptual lineage
+  std::shared_ptr<UnionSplitLineage> mLineage;
 };
 
 /**

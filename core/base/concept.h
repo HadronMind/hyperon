@@ -74,11 +74,6 @@ protected:
   explicit Concept(Concept&&) {}
 
 private:
-  inline std::string _element_key_string(const ConceptPtr& ele) {
-    return ele->sname;
-  }
-
-private:
   std::string sname;  // Semantic name
   std::weak_ptr<Category> mCategory;
 

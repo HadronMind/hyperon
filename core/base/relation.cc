@@ -11,6 +11,7 @@ bool Relation::HasEntity(const std::string& sname) const {
 bool Relation::AddEntity(const EntityPtr& entity) {
   if (mEntities.find(sname) == mEntities.end()) {
     mEntities[entity->SemName()] = entity;
+    entity->BindRelation(shared_from_base<Relation>());
     return true;
   }
   return false;
@@ -32,8 +33,10 @@ bool Relation::GetEntity(const std::string& sname, EntityPtr& entity) {
 }
 
 bool Relation::EraseEntity(const std::string& sname) {
-  if (mEntities.find(sname) != mEntities.end()) {
-    mEntities.erase(sname);
+  auto it = mEntities.find(sname);
+  if (it != mEntities.end()) {
+    it->second->UnbindRelation(this->SemName());
+    mEntities.erase(it);
     return true;
   }
   return false;

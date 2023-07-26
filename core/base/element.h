@@ -4,6 +4,19 @@
 #include <memory>
 #include <string>
 
+namespace {
+// An OP way of enable_shared_from_base.
+// Refers to https:// stackoverflow.com/a/32172486
+template <class Base>
+class enable_shared_from_base : public std::enable_shared_from_this<Base> {
+protected:
+  template <class Derived>
+  std::shared_ptr<Derived> shared_from_base() {
+    return std::static_pointer_cast<Derived>(shared_from_this());
+  }
+};
+}  // namespace
+
 namespace hyperkb {
 
 class Element;
@@ -17,7 +30,7 @@ using MarkerType = uint64_t;
 /**
  * @brief Element is the root class of everything in the KB.
  */
-class Element {
+class Element : public enable_shared_from_base<Element> {
 public:
   static const HashVal INVALID_HASH = std::numeric_limits<size_t>::max();
   static const ElementType INVALID_TYPE = 0x0;

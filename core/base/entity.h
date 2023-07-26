@@ -1,15 +1,20 @@
 #pragma once
 
-#include "base/concept.h"
 #include <map>
+
+#include "base/concept.h"
 
 namespace hyperkb {
 
 class Relation;
+using RelationPtr = std::shared_ptr<Relation>;
 
 class Entity : public Concept {
 public:
   /* override */ inline bool IsEntity() const { return true; }
+
+  virtual bool BindRelation(const RelationPtr& relation);
+  virtual bool UnbindRelation(const std::string& sname);
 
 private:
   std::map<std::string, std::weak_ptr<Relation>> mConnectedRelations;

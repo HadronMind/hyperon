@@ -40,6 +40,7 @@ public:
 
   inline bool IsEntity() const { return false; }
   inline bool IsRelation() const { return false; }
+  inline bool IsRole() const { return false; }
 
   inline std::weak_ptr<Category> GetCategory() { return mCategory; }
   inline std::shared_ptr<Context> GetContext() { return mContext; }
@@ -67,14 +68,17 @@ public:
   std::list<ConceptReprPtr> GetRepr(const ConceptRepr::REPR_MODAL modal) const;
 
   // Concept in string is denoted by curly braces.
-  std::string ToString() const;
+  virtual std::string ToString() const;
 
 protected:
   explicit Concept(const Concept&) {}
   explicit Concept(Concept&&) {}
 
-private:
-  std::string sname;  // Semantic name
+protected:
+  // Semantic name
+  std::string sname;
+
+  // A concept must belong to a category, as specified or the default.
   std::weak_ptr<Category> mCategory;
 
   // An element would have an empty (default) or single related context when
@@ -82,8 +86,9 @@ private:
   // are related to the element.
   ContextPtr mContext;
 
+private:
   // stored representations
-  std::map<ConceptRepr::REPR_MODAL, std::list<ConceptReprPtr>> repr_map;
+  std::map<ConceptRepr::REPR_MODAL, std::list<ConceptReprPtr>> mReprMap;
 
   // TODO: support general properties
 };

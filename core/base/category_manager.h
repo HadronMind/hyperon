@@ -1,10 +1,13 @@
 #pragma once
+#include <memory>
 #include <string>
 #include <vector>
 
-#include "base/category.h"
-
 namespace hyperkb {
+
+class Category;
+using CategoryPtr = std::shared_ptr<Category>;
+
 /**
  * @brief Global status and indicators
  */

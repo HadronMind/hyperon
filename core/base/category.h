@@ -6,7 +6,6 @@
 #include <string>
 
 #include "base/concept.h"
-#include "base/element.h"
 
 namespace hyperkb {
 
@@ -78,7 +77,8 @@ public:
    * @param uuid Target element UUID
    * @param result Element pointer or nullptr
    */
-  void GetElement(const std::string& uuid, ElementPtr& result) const;
+  void GetElement(const std::string& uuid,
+                  std::shared_ptr<Element>& result) const;
 
   /**
    * @brief The number of Concept elements. We use template to control the
@@ -124,7 +124,7 @@ protected:
   // Currently the concept set is equivelent with element set.
   // mNonCnptMap reserved for future use.
   std::map<std::string, ConceptPtr> mCnptMap;
-  std::map<std::string, ElementPtr> mNonCnptMap;
+  std::map<std::string, std::shared_ptr<Element>> mNonCnptMap;
 
 private:
   std::string mName;

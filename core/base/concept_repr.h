@@ -8,6 +8,7 @@
 
 namespace hyperkb {
 
+namespace core {
 /**
  * @brief Multimodal represention of concepts / knowledge.
  */
@@ -90,4 +91,5 @@ public:
   ConceptReprGuile() { this->mModal = MODAL_GUILE_E; }
 };
 
+}  // namespace core
 }  // namespace hyperkb

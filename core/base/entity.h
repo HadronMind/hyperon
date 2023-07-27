@@ -2,9 +2,10 @@
 
 #include <map>
 
-#include "base/concept.h"
+#include "core/base/concept.h"
 
 namespace hyperkb {
+namespace core {
 
 class Relation;
 using RelationPtr = std::shared_ptr<Relation>;
@@ -40,5 +41,7 @@ static inline typename std::enable_if_t<std::is_base_of<Entity, T>::value,
 cast_to_entity(const std::shared_ptr<const T>& subent) {
   return std::dynamic_pointer_cast<Entity>(std::const_pointer_cast<T>(subent));
 }
+
+}  // namespace core
 
 }  // namespace hyperkb

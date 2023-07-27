@@ -5,9 +5,10 @@
 #include <memory>
 #include <string>
 
-#include "base/concept.h"
+#include "core/base/concept.h"
 
 namespace hyperkb {
+namespace core {
 
 class Category;
 using CategoryPtr = std::shared_ptr<Category>;
@@ -138,4 +139,5 @@ private:
   uint64_t mContextNum;
 };
 
+}  // namespace core
 }  // namespace hyperkb

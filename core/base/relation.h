@@ -1,8 +1,9 @@
 #pragma once
 
-#include "base/concept.h"
+#include "core/base/concept.h"
 
 namespace hyperkb {
+namespace core {
 
 class Entity;
 using EntityPtr = std::shared_ptr<Entity>;
@@ -52,4 +53,5 @@ static inline
 
 class Split : public Relation {};
 
+}  // namespace core
 }  // namespace hyperkb

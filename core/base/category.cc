@@ -1,6 +1,8 @@
-#include "base/category.h"
+#include "core/base/category.h"
 
 namespace hyperkb {
+
+namespace core {
 
 void Category::GetEnclosedCategory(const std::string& ns,
                                    CategoryPtr& result) const {
@@ -56,4 +58,5 @@ Category::HasConcept(const std::string& iname) const {
   return GetConcept<T>(iname, csp);
 }
 
+}  // namespace core
 }  // namespace hyperkb

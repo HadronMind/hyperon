@@ -6,9 +6,12 @@ set(TEST_ON OFF)
 
 list (APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 find_package(fmt REQUIRED)
 include_directories(${fmt_INCLUDE_DIRS})
 
+add_subdirectory(common)
 add_subdirectory(core)
 add_subdirectory(server)
 if(TEST_ON)

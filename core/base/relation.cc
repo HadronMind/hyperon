@@ -1,8 +1,9 @@
-#include "base/relation.h"
+#include "core/base/relation.h"
 
-#include "base/entity.h"
+#include "core/base/entity.h"
 
 namespace hyperkb {
+  namespace core {
 
 bool Relation::HasEntity(const std::string& sname) const {
   return mEntities.find(sname) != mEntities.end();
@@ -43,3 +44,4 @@ bool Relation::EraseEntity(const std::string& sname) {
 }
 
 }  // namespace hyperkb
+}

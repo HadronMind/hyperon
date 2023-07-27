@@ -7,11 +7,12 @@
 #include <set>
 #include <string>
 
-#include "base/concept_repr.h"
-#include "base/element.h"
-#include "base/lineage.h"
+#include "core/base/concept_repr.h"
+#include "core/base/element.h"
+#include "core/base/lineage.h"
 
 namespace hyperkb {
+namespace core {
 
 class Concept;
 using ConceptPtr = std::shared_ptr<Concept>;
@@ -124,4 +125,5 @@ static inline
       std::const_pointer_cast<T>(concept));
 }
 
+}  // namespace core
 }  // namespace hyperkb

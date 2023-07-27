@@ -1,8 +1,9 @@
-#include "base/concept.h"
+#include "core/base/concept.h"
 
 #include <fmt/core.h>
 
 namespace hyperkb {
+namespace core {
 
 Concept::Concept(const std::string& sname, const CategoryPtr& category,
                  const ElementPtr& parent, const ContextPtr& context)
@@ -39,4 +40,5 @@ uint32_t Concept::ReprCount(const ConceptRepr::REPR_MODAL modal) const {
 
 std::string Concept::ToString() const { return fmt::format("\\{{}\\}", sname); }
 
+}  // namespace core
 }  // namespace hyperkb

@@ -7,16 +7,16 @@ namespace core {
 
 bool Entity::BindRelation(const RelationPtr& relation) {
   std::string sname = relation->SemName();
-  if (mConnectedRelations.find(sname) != mConnectedRelations.end()) {
+  if (mBoundRelations.find(sname) != mBoundRelations.end()) {
     return false;
   }
-  mConnectedRelations[sname] = relation;
+  mBoundRelations[sname] = relation;
   return true;
 }
 
 bool Entity::UnbindRelation(const std::string& sname) {
-  if (mConnectedRelations.find(sname) != mConnectedRelations.end()) {
-    mConnectedRelations.erase(sname);
+  if (mBoundRelations.find(sname) != mBoundRelations.end()) {
+    mBoundRelations.erase(sname);
     return true;
   }
   return false;

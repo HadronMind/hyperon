@@ -18,7 +18,7 @@ public:
   virtual bool UnbindRelation(const std::string& sname);
 
 private:
-  std::map<std::string, std::weak_ptr<Relation>> mConnectedRelations;
+  std::map<std::string, std::weak_ptr<Relation>> mBoundRelations;
 };
 
 template <typename T, typename... Args>

@@ -1,0 +1,10 @@
+add_subdirectory(base)
+add_subdirectory(link)
+add_subdirectory(guile)
+if(TEST_ON)
+add_subdirectory(tests)
+endif()
+
+add_library(hyperkb_core STATIC hyperkb.cc)
+target_link_libraries(hyperkb_core hyperkb_core_base ${fmt_INCLUDE_DIRS})
+set_target_properties(hyperkb_core PROPERTIES PUBLIC_HEADER "hyperkb.h")

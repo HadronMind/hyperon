@@ -12,7 +12,7 @@ find_package(fmt REQUIRED)
 include_directories(${fmt_INCLUDE_DIRS})
 
 add_subdirectory(common)
-add_subdirectory(core)
+add_subdirectory(base)
 add_subdirectory(server)
 if(TEST_ON)
 add_subdirectory(tests)

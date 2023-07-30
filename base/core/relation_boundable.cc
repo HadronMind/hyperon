@@ -1,11 +1,11 @@
-#include "core/base/entity.h"
+#include "base/core/relation_boundable.h"
 
-#include "core/base/relation.h"
+#include "base/core/relation.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
-bool Entity::BindRelation(const RelationPtr& relation) {
+bool SimpleRelationBoundable::BindRelation(const RelationPtr& relation) {
   std::string sname = relation->SemName();
   if (mBoundRelations.find(sname) != mBoundRelations.end()) {
     return false;
@@ -14,12 +14,12 @@ bool Entity::BindRelation(const RelationPtr& relation) {
   return true;
 }
 
-bool Entity::UnbindRelation(const std::string& sname) {
+bool SimpleRelationBoundable::UnbindRelation(const std::string& sname) {
   if (mBoundRelations.find(sname) != mBoundRelations.end()) {
     mBoundRelations.erase(sname);
     return true;
   }
   return false;
 }
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

@@ -6,10 +6,10 @@
 #include <string>
 #include <unordered_map>
 
-#include "core/base/element.h"
+#include "base/core/element.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 /**
  * @brief Lineage: an embedded relation contains the elements hierarchy to
@@ -84,5 +84,5 @@ public:
   }
 };
 
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

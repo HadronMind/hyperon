@@ -63,10 +63,10 @@ bool Relation::GetRelation(const std::string& sname, RelationPtr& relation) {
 bool Relation::EraseEntityOrRelation(const std::string& sname) {
   auto it = mContainedConcepts.find(sname);
   if (it != mContainedConcepts.end()) {
-    if (std::dynamic_pointer_cast<Entity>(it->second)) {
+    if (it->second->IsEntity()) {
       std::dynamic_pointer_cast<Entity>(it->second)
           ->UnbindRelation(this->SemName());
-    } else if (std::dynamic_pointer_cast<Relation>(it->second)) {
+    } else if (it->second->IsRelation()) {
       std::dynamic_pointer_cast<Relation>(it->second)
           ->UnbindRelation(this->SemName());
     } else {

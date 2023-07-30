@@ -1,8 +1,8 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <string>
-#include <map>
 
 namespace hyperkb {
 namespace base {

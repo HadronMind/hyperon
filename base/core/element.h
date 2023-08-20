@@ -7,7 +7,7 @@
 #include "common/memory/esft.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 class Element;
 using ElementPtr = std::shared_ptr<Element>;
@@ -103,5 +103,5 @@ static inline
       std::const_pointer_cast<T>(element));
 }
 
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

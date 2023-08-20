@@ -1,7 +1,7 @@
-#include "core/base/element.h"
+#include "base/core/element.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 HashVal Element::Hash() const {
   if (Element::INVALID_HASH != mHashedVal) return mHashedVal;

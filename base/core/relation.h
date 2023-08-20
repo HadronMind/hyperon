@@ -1,9 +1,10 @@
 #pragma once
 
-#include "core/base/concept.h"
+#include "base/core/concept.h"
+#include "base/core/relation_boundable.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 class Entity;
 using EntityPtr = std::shared_ptr<Entity>;
@@ -14,19 +15,23 @@ using RelationPtr = std::shared_ptr<Relation>;
  * @brief In the Entity-Relation model, a relation defines a interconnection,
  * i.e. hyperedge, of multiple entities or other relations.
  */
-class Relation : public Concept {
+class Relation : public Concept, public SimpleRelationBoundable {
 public:
   /* override */ inline bool IsRelation() const { return true; }
 
   virtual bool HasEntity(const std::string& sname) const;
+  virtual bool HasRelation(const std::string& sname) const;
+  virtual bool HasEntityOrRelation(const std::string& sname) const;
   virtual bool AddEntity(const EntityPtr& entity);
+  virtual bool AddRelation(const RelationPtr& relation);
   virtual bool GetEntity(const std::string& sname, EntityPtr& entity);
-  virtual bool EraseEntity(const std::string& sname);
+  virtual bool GetRelation(const std::string& sname, RelationPtr& relation);
+  virtual bool EraseEntityOrRelation(const std::string& sname);
 
-  EntityPtr operator[](const std::string& sname);
+  ConceptPtr operator[](const std::string& sname);
 
 protected:
-  std::map<std::string, EntityPtr> mEntities;
+  std::map<std::string, ConceptPtr> mContainedConcepts;
 };
 
 template <typename T, typename... Args>
@@ -51,7 +56,5 @@ static inline
       std::const_pointer_cast<T>(subrel));
 }
 
-class Split : public Relation {};
-
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

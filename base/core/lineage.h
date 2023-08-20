@@ -1,9 +1,9 @@
 #pragma once
 
-#include "core/base/lineagable.h"
+#include "base/core/lineagable.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 /**
  * @brief A kind of lineage with parent unions and children splits.
@@ -81,5 +81,5 @@ private:
   // Children group representing mutually exclusive relation
   std::list<std::set<std::string>> mSplits;
 };
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

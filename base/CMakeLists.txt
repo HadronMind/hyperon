@@ -1,4 +1,4 @@
-add_subdirectory(base)
+add_subdirectory(core)
 add_subdirectory(link)
 add_subdirectory(guile)
 if(TEST_ON)

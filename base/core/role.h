@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include "core/base/concept.h"
+#include "base/core/concept.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 class Role;
 using RolePtr = std::shared_ptr<Role>;
@@ -15,5 +15,5 @@ public:
   /* override */ inline bool IsRole() const { return true; }
 };
 
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

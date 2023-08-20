@@ -7,12 +7,12 @@
 #include <set>
 #include <string>
 
-#include "core/base/concept_repr.h"
-#include "core/base/element.h"
-#include "core/base/lineage.h"
+#include "base/core/concept_repr.h"
+#include "base/core/element.h"
+#include "base/core/lineage.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 class Concept;
 using ConceptPtr = std::shared_ptr<Concept>;
@@ -31,20 +31,23 @@ class Concept : public Element, public UnionSplitLineage {
   friend class Category;
 
 public:
-  Concept(const std::string& sname, const CategoryPtr& category)
-      : sname(sname), mCategory(category){};
-
-  Concept(const std::string& sname, const CategoryPtr& category,
-          const ElementPtr& parent, const ContextPtr& context);
+  Concept() = delete;
+  explicit Concept(const std::string& sname);
+  Concept(const std::string& sname, const ConceptPtr& parent);
+  Concept(const std::string& sname, const CategoryPtr& category);
+  Concept(const std::string& sname, const ContextPtr& context);
+  Concept(const std::string& sname, const ConceptPtr& parent,
+          const CategoryPtr& category, const ContextPtr& context);
 
   /*override*/ inline std::string SemName() const { return sname; }
 
   inline bool IsEntity() const { return false; }
   inline bool IsRelation() const { return false; }
   inline bool IsRole() const { return false; }
+  inline bool IsContext() const { return false; }
 
-  inline std::weak_ptr<Category> GetCategory() { return mCategory; }
-  inline std::shared_ptr<Context> GetContext() { return mContext; }
+  CategoryPtr GetCategory() const;
+  ContextPtr GetContext() const;
 
   /**
    * @brief Check the object is instantized from Concept subtype.
@@ -85,13 +88,13 @@ protected:
   // An element would have an empty (default) or single related context when
   // user provides. A context link would be created when more than one contexts
   // are related to the element.
-  ContextPtr mContext;
+  std::weak_ptr<Context> mContext;
 
 private:
+  // TODO: support general properties
+
   // stored representations
   std::map<ConceptRepr::REPR_MODAL, std::list<ConceptReprPtr>> mReprMap;
-
-  // TODO: support general properties
 };
 
 /**
@@ -125,5 +128,5 @@ static inline
       std::const_pointer_cast<T>(concept));
 }
 
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

@@ -1,9 +1,9 @@
-#include "core/base/lineage.h"
+#include "base/core/lineage.h"
 
 #include <algorithm>
 
 namespace hyperkb {
-  namespace core {
+namespace base {
 
 bool UnionSplitLineage::HasParent(const std::string& parent) const {
   return mParentsMap.find(parent) != mParentsMap.end();
@@ -171,5 +171,5 @@ bool UnionSplitLineage::DismissChildrenSplit(
   return ret;
 }
 
+}  // namespace base
 }  // namespace hyperkb
-}

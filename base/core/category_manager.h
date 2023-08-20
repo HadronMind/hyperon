@@ -4,7 +4,7 @@
 #include <vector>
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 class Category;
 using CategoryPtr = std::shared_ptr<Category>;
@@ -22,5 +22,5 @@ CategoryPtr& UseCategory(const std::string& category_name,
 
 CategoryPtr& GetGlobalCategory(const std::string& category_name);
 
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

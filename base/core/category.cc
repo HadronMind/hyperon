@@ -1,8 +1,8 @@
-#include "core/base/category.h"
+#include "base/core/category.h"
 
 namespace hyperkb {
 
-namespace core {
+namespace base {
 
 void Category::GetEnclosedCategory(const std::string& ns,
                                    CategoryPtr& result) const {

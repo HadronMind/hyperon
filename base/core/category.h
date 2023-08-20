@@ -5,10 +5,11 @@
 #include <memory>
 #include <string>
 
-#include "core/base/concept.h"
+#include "base/core/concept.h"
+#include "common/memory/esft.h"
 
 namespace hyperkb {
-namespace core {
+namespace base {
 
 class Category;
 using CategoryPtr = std::shared_ptr<Category>;
@@ -22,7 +23,7 @@ using CategoryPtr = std::shared_ptr<Category>;
  * category of "Physics theory". Concepts in the same category should be
  * consistent logically or theoretically.
  */
-class Category {
+class Category : public common::inheritable_esft<Category> {
 public:
   explicit Category(const std::string& name) : mName(name){};
 
@@ -67,7 +68,7 @@ public:
    * @param uuid Target element UUID
    * @return boolean
    */
-  inline bool HasElement(const std::string& uuid) {
+  inline bool HasElement(const std::string& uuid) const {
     return mCnptMap.find(uuid) != mCnptMap.end() ||
            mNonCnptMap.find(uuid) != mNonCnptMap.end();
   };
@@ -139,5 +140,5 @@ private:
   uint64_t mContextNum;
 };
 
-}  // namespace core
+}  // namespace base
 }  // namespace hyperkb

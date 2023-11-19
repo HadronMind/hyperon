@@ -8,7 +8,7 @@ required_conan_version = ">=2.0.4"
 
 class hyperkbRecipe(ConanFile):
     name = "hyperkb"
-    version = "0.1.1"
+    version = "0.0.2"
 
     # Optional metadata
     license = "Apache 2.0"
@@ -36,6 +36,9 @@ class hyperkbRecipe(ConanFile):
     def requirements(self):
         self.requires("fmt/9.1.0")
         self.requires("glog/0.6.0")
+        self.requires("grpc/1.54.3")
+        self.requires("protobuf/3.21.12")
+        self.requires("nlohmann_json/3.11.2")
 
     def build_requirements(self):
         self.test_requires("gtest/1.13.0")
@@ -57,7 +60,7 @@ class hyperkbRecipe(ConanFile):
         path = os.path.join(self.source_folder, "CMakeLists.txt")
         cmake_file = load(self, path)
         cmake = CMake(self)
-        #cmake.definitions['CMAKE_EXPORT_COMPILE_COMMANDS'] = "ON"
+        # cmake.definitions['CMAKE_EXPORT_COMPILE_COMMANDS'] = "ON"
         cmake.configure(cli_args=["-GNinja"])
         cmake.build()
 
@@ -67,8 +70,3 @@ class hyperkbRecipe(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["hyperkb"]
-
-
-
-
-

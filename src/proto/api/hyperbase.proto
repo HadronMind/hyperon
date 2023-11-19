@@ -1,0 +1,75 @@
+syntax = "proto3";
+package hyperkb.api.v1;
+
+////////////// Basics ///////////////
+
+message HyperbaseMeta {
+    string name = 1;
+    string owner = 2;
+}
+
+message HyperbaseStatistics {
+    uint64 n_categoies = 1;
+    uint64 n_entries = 2;
+    uint64 n_relations = 3;
+    uint64 n_contexts = 4;
+}
+
+message HyperbaseStatus {
+    uint64 created_time = 1;
+    uint64 updated_time = 2;
+    uint64 last_read_time = 3;
+}
+
+message HyperbaseObject {
+    HyperbaseMeta meta = 1;
+    HyperbaseStatus status = 2;
+    HyperbaseStatistics statistics = 3;
+}
+
+////////////// Hyperbase ///////////////
+
+// Creation
+message HyperbaseCreationRequest {
+    string name = 1;
+    string owner = 2;
+}
+
+message HyperbaseCreationResponse {
+    uint32 response_code = 1;
+    string message = 2;
+    HyperbaseObject hyperbase = 3;
+}
+
+// Fetching
+message HyperbaseFetchRequest {
+    string name = 1;
+}
+
+message HyperbaseFetchResponse {
+    uint32 response_code = 1;
+    string message = 2;
+    repeated HyperbaseObject hyperbases = 3;
+}
+
+// Deletion
+message HyperbaseDeletionRequest {
+    string name = 1;
+    bool permanent = 2;
+}
+
+message HyperbaseDeletionResponse {
+    uint32 response_code = 1;
+    string message = 2;
+}
+
+////////////// Category ///////////////
+
+
+////////////// Services ///////////////
+
+service HyperbaseService {
+    rpc CreateHyperbase(HyperbaseCreationRequest) returns(HyperbaseCreationResponse);
+    rpc FetchHyperbase(HyperbaseFetchRequest) returns(HyperbaseFetchResponse);
+    rpc DeleteHyperbase(HyperbaseDeletionRequest) returns(HyperbaseDeletionResponse);
+}

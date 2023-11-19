@@ -4,16 +4,15 @@ project(HyperKB CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(TEST_ON OFF)
 
-list (APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 find_package(fmt REQUIRED)
-include_directories(${fmt_INCLUDE_DIRS})
+find_package(nlohmann_json REQUIRED)
+include_directories(${fmt_INCLUDE_DIRS} ${nlohmann_json_INCLUDE_DIRS})
 
-add_subdirectory(common)
-add_subdirectory(base)
-add_subdirectory(server)
+add_subdirectory(src)
 if(TEST_ON)
-add_subdirectory(tests)
+  add_subdirectory(tests)
 endif()

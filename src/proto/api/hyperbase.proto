@@ -1,5 +1,5 @@
 syntax = "proto3";
-package hyperkb.api.v1;
+package hyperon.api.v1;
 
 ////////////// Basics ///////////////
 

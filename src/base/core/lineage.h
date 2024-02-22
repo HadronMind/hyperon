@@ -2,7 +2,7 @@
 
 #include "base/core/lineagable.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 /**
@@ -82,4 +82,4 @@ private:
   std::list<std::set<std::string>> mSplits;
 };
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

@@ -3,7 +3,7 @@
 #include "base/core/concept.h"
 #include "base/core/entity.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 bool Relation::HasEntity(const std::string& sname) const {
@@ -86,4 +86,4 @@ ConceptPtr Relation::operator[](const std::string& sname) {
 }
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

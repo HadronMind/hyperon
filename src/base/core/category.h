@@ -8,7 +8,7 @@
 #include "base/core/concept.h"
 #include "common/memory/esft.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Category;
@@ -141,4 +141,4 @@ private:
 };
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

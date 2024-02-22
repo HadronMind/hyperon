@@ -5,7 +5,7 @@
 #include "base/core/concept.h"
 #include "base/core/relation_boundable.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Relation;
@@ -39,4 +39,4 @@ cast_to_entity(const std::shared_ptr<const T>& subent) {
 
 }  // namespace base
 
-}  // namespace hyperkb
+}  // namespace hyperon

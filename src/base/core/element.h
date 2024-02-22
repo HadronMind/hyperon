@@ -6,7 +6,7 @@
 
 #include "common/memory/esft.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Element;
@@ -104,4 +104,4 @@ static inline
 }
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

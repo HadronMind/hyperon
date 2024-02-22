@@ -2,7 +2,7 @@
 
 #include "base/core/relation.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 bool SimpleRelationBoundable::BindRelation(const RelationPtr& relation) {
@@ -22,4 +22,4 @@ bool SimpleRelationBoundable::UnbindRelation(const std::string& sname) {
   return false;
 }
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

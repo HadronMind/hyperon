@@ -2,7 +2,7 @@
 
 #include "base/core/concept.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 class Context;
 using ContextPtr = std::shared_ptr<Context>;
@@ -16,4 +16,4 @@ private:
 };
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

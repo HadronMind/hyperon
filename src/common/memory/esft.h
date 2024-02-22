@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace hyperkb {
+namespace hyperon {
 namespace common {
 
 class inheritable_esft_base
@@ -28,4 +28,4 @@ public:
 };
 
 }  // namespace common
-}  // namespace hyperkb
+}  // namespace hyperon

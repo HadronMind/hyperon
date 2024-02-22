@@ -1,6 +1,6 @@
 #include "base/core/category.h"
 
-namespace hyperkb {
+namespace hyperon {
 
 namespace base {
 
@@ -59,4 +59,4 @@ Category::HasConcept(const std::string& iname) const {
 }
 
 }  // namespace core
-}  // namespace hyperkb
+}  // namespace hyperon

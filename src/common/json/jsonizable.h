@@ -3,7 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
-namespace hyperkb {
+namespace hyperon {
 namespace common {
 
 template <typename T>
@@ -22,4 +22,4 @@ public:
   virtual nlohmann::json& to_json() = 0;
 };
 }  // namespace common
-}  // namespace hyperkb
+}  // namespace hyperon

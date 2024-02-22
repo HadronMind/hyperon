@@ -8,7 +8,7 @@
 
 #include "base/core/element.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 /**
@@ -85,4 +85,4 @@ public:
 };
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

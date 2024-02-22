@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 bool UnionSplitLineage::HasParent(const std::string& parent) const {
@@ -172,4 +172,4 @@ bool UnionSplitLineage::DismissChildrenSplit(
 }
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

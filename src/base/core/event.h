@@ -2,10 +2,10 @@
 
 #include "base/core/relation.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Event : public Relation {};
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

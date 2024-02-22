@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Relation;
@@ -27,4 +27,4 @@ private:
 };
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

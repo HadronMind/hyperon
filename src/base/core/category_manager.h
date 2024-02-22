@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Category;
@@ -24,4 +24,4 @@ CategoryPtr& UseCategory(const std::string& category_name,
 CategoryPtr& GetGlobalCategory(const std::string& category_name);
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

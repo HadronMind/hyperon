@@ -1,1 +1,1 @@
-# HyperKB-Core
+# Hyperon-Core

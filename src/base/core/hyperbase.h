@@ -1,6 +1,6 @@
 #pragma once
 
-namespace hyperkb {
+namespace hyperon {
 
 class Hyperbase {};
-}  // namespace hyperkb
+}  // namespace hyperon

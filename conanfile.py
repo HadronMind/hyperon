@@ -6,14 +6,14 @@ from conan.tools.files import load
 required_conan_version = ">=2.0.4"
 
 
-class hyperkbRecipe(ConanFile):
-    name = "hyperkb"
+class hyperonRecipe(ConanFile):
+    name = "hyperon"
     version = "0.0.2"
 
     # Optional metadata
     license = "Apache 2.0"
     author = "xiaming.chen"
-    url = "https://github.com/HyperKB/hyperkb"
+    url = "https://github.com/Hyperon/hyperon"
     description = "Knowledge base"
     topics = ("Knowledge Base", "Hypergraph", "AGI")
 
@@ -69,4 +69,4 @@ class hyperkbRecipe(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["hyperkb"]
+        self.cpp_info.libs = ["hyperon"]

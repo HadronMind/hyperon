@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 
-namespace hyperkb {
+namespace hyperon {
 
 namespace base {
 /**
@@ -92,4 +92,4 @@ public:
 };
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

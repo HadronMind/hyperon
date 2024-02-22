@@ -1,6 +1,6 @@
 #include "base/core/element.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 HashVal Element::Hash() const {
@@ -9,4 +9,4 @@ HashVal Element::Hash() const {
   return mHashedVal;
 }
 }  // namespace core
-}  // namespace hyperkb
+}  // namespace hyperon

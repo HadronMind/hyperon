@@ -1,7 +1,7 @@
-add_executable(hyperkbd hyperkb_server.cpp)
+add_executable(hyperond hyperon_server.cpp)
 
 install(
-  TARGETS hyperkbd
+  TARGETS hyperond
   DESTINATION "."
   RUNTIME DESTINATION bin
   ARCHIVE DESTINATION lib

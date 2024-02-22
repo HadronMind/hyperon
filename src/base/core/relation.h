@@ -3,7 +3,7 @@
 #include "base/core/concept.h"
 #include "base/core/relation_boundable.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Entity;
@@ -57,4 +57,4 @@ static inline
 }
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

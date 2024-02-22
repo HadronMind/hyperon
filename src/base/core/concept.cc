@@ -5,7 +5,7 @@
 #include "base/core/category.h"
 #include "base/core/context.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 Concept::Concept(const std::string& sname) : sname(sname) {}
@@ -68,4 +68,4 @@ uint32_t Concept::ReprCount(const ConceptRepr::REPR_MODAL modal) const {
 std::string Concept::ToString() const { return fmt::format("\\{{}\\}", sname); }
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

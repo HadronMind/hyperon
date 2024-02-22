@@ -1,4 +1,4 @@
 # source files
 file(GLOB base_srcs CONFIGURE_DEPENDS "*.cpp" "*.cc")
-add_library(hyperkb_core_base STATIC ${base_srcs})
-target_link_libraries(hyperkb_core_base fmt::fmt)
+add_library(hyperon_core_base STATIC ${base_srcs})
+target_link_libraries(hyperon_core_base fmt::fmt)

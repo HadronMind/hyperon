@@ -2,6 +2,6 @@
 
 #include "base/core/relation.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {}  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

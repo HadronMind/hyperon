@@ -4,7 +4,7 @@
 
 #include "base/core/concept.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Role;
@@ -16,4 +16,4 @@ public:
 };
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon

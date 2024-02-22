@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "server/hyperkb_server.h"
+#include "server/hyperon_server.h"
 
 void hyperkdb_server() {
 #ifdef NDEBUG

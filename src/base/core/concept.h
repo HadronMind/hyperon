@@ -11,7 +11,7 @@
 #include "base/core/element.h"
 #include "base/core/lineage.h"
 
-namespace hyperkb {
+namespace hyperon {
 namespace base {
 
 class Concept;
@@ -129,4 +129,4 @@ static inline
 }
 
 }  // namespace base
-}  // namespace hyperkb
+}  // namespace hyperon
